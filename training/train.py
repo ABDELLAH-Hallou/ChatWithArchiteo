@@ -17,9 +17,6 @@ nltk.download("wordnet")  # word database
 nltk.download('omw-1.4')
 
 
-
-
-
 def preprocessing(data):
     lm = WordNetLemmatizer()  # object for getting words
     # lists
@@ -84,7 +81,15 @@ def modeling(x, y):
     )
     print(model.summary())
     history = model.fit(x, y, epochs=500, batch_size=50, verbose=1)
-    joblib.dump(model, "../model/data.pkl")
+
+
+    # joblib.dump(model, "../model/data.pkl")
+    # serialize model to JSON
+    model_json = model.to_json()
+    with open("../model/model.json", "w") as json_file:
+        json_file.write(model_json)
+    # serialize weights to HDF5
+    model.save_weights("../model/model.h5")
     return model, history
 
 
