@@ -98,7 +98,7 @@ def getResponse():
         #     print('fuck')
         #     return jsonify({'error': 'data not found'})
     else:
-        return render_template('index.html')
+        return render_template('chatbot.html')
 
 
 if __name__ == "__main__":

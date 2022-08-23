@@ -1,0 +1,75 @@
+<!Doctype html>
+<html>
+
+<head>
+
+  <link rel="stylesheet" href="../static/css/chatbot.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+  <script type="text/javascript" src="../static/js/chatbot.js"></script>
+</head>
+
+<body>
+  <div class="chat-container">
+
+  </div>
+  <div class="chat-icon-container">
+    <img onclick="showChatCard('open')" class="chat-icon" src="../static/images/chatbot.png" alt="">
+    <img onclick="showChatCard('close')" class="chat-icon-close" src="../static/images/closeChat.png" alt="">
+  </div>
+
+
+  <div class="chat-card">
+    <div class="chat-card-header">
+      <img class="chat-avatar" src="../static/images/chatbot.png" alt="">
+      <span class="chat-name" style="color: rgb(255, 255, 255);">Chat With Architeo </span>
+      <svg onclick="showChatCard('close')" class="close-chat" width="16" height="16" viewBox="0 0 23 23" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" fill="white" d="M9.34583 11.2L0.384011 2.23818C-0.128004 1.72617 -0.128004 0.896026 0.384011 0.384011C0.896026 -0.128004 1.72617 -0.128004 2.23818 0.384011L11.2 9.34583L20.1618 0.384011C20.6738 -0.128004 21.504 -0.128004 22.016 0.384011C22.528 0.896026 22.528 1.72617 22.016 2.23818L13.0542 11.2L22.016 20.1618C22.528 20.6738 22.528 21.504 22.016 22.016C21.504 22.528 20.6738 22.528 20.1618 22.016L11.2 13.0542L2.23818 22.016C1.72617 22.528 0.896026 22.528 0.384011 22.016C-0.128003 21.504 -0.128003 20.6738 0.384011 20.1618L9.34583 11.2Z"></path></svg>
+    </div>
+
+
+    <div class="chat-container" id="chat-content">
+      <div id="chat">
+
+
+        <div class="chat-day">Today 12:17 AM</div>
+
+        <div class="media media-chat from-chat">
+          <img class="avatar" src="../static/images/chatbot.png" alt="...">
+          <div class="media-body">
+            <p>Sorry I don't have. i changed my phone.</p>
+          </div>
+        </div>
+
+        <div class="media media-chat media-chat-reverse">
+          <div class="media-body">
+            <p>Okay then see you on sunday!!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="publisher bt-1 border-light">
+      <img class="avatar avatar-xs" src="../static/images/chatbot.png" alt="...">
+      <input class="publisher-input" name="usermsg" id="message" type="text" placeholder="Write something">
+      <span class="publisher-btn file-group">
+        <div>
+          <label for="file-input">
+            <i class="fa fa-paperclip file-browser"> </i>
+          </label>
+
+          <input id="file-input" type="file" onchange="previewFile(this)" style="display: none;" />
+        </div>
+
+
+      </span>
+      <a class="publisher-btn" href="#" data-abc="true"><i class="fa fa-smile"></i></a>
+      <a class="publisher-btn text-info" id="sendBtn" onclick="send()" name="submitmsg" href="javascript:void(0)"
+        data-abc="true"><i class="fa fa-paper-plane"></i></a>
+    </div>
+  </div>
+
+
+</body>
+
+</html>

@@ -15,8 +15,8 @@
     {
         "tag" : "services",
         "patterns" : ["Quels sont vos produits et services ?","Qu'est-ce que vous offrez","Services"],
-        "responses": ["Consulting IT\nPortage salariale\nOffshoring\nFormation\nStartupping",
-                      "Nous nous spécialisons dans l'utilisation de tests de compétences de scénarios modernes et éprouvés pour choisir parmi le TOP 1% des talents informatiques au Maroc.\nNous excellons dans la fourniture d'une formation de haute qualité pour être bien préparé pour passer votre certification informatique.\nNous mettons à votre disposition des consultants experts de haut niveau qui peuvent conduire votre entreprise vers le succès.\nNous boostons votre équipe pour qu'elle atteigne et dépasse ses objectifs en réalisant son plein potentiel en toute simplicité !\nLequelle vous intéresse le plus (candidature/consultation/coaching/IT Certification "]
+        "responses": ["Consulting IT. Portage salariale. Offshoring. Formation. Startupping",
+                      "Nous nous spécialisons dans l'utilisation de tests de compétences de scénarios modernes et éprouvés pour choisir parmi le TOP 1% des talents informatiques au Maroc.. Nous excellons dans la fourniture d'une formation de haute qualité pour être bien préparé pour passer votre certification informatique.. Nous mettons à votre disposition des consultants experts de haut niveau qui peuvent conduire votre entreprise vers le succès.. Nous boostons votre équipe pour qu'elle atteigne et dépasse ses objectifs en réalisant son plein potentiel en toute simplicité !. Lequelle vous intéresse le plus (candidature/consultation/coaching/IT Certification "]
     },
     {
         "tag" : "Consulting",
@@ -51,7 +51,7 @@
     {
         "tag" : "about",
         "patterns" : ["qui êtes-vous?","Alors, qui êtes-vous?","Je souhaite bénéficier de vos services","à qui je m'adresse","à qui je parle","qu'est ce que vous faites"],
-        "responses": ["Architeo est un cabinet de consulting et conseil IT basé sur Rabat .\nNous nous spécialisons dans le portage salariale , la formations IT et le développement logiciel.\nNotre pool de talents opèrent dans differents branches et secteurs (Mobile, technique, digital, management, BI...)."]
+        "responses": ["Architeo est un cabinet de consulting et conseil IT basé sur Rabat .. Nous nous spécialisons dans le portage salariale , la formations IT et le développement logiciel.. Notre pool de talents opèrent dans differents branches et secteurs (Mobile, technique, digital, management, BI...)."]
     },
     {
         "tag" : "benefit",
