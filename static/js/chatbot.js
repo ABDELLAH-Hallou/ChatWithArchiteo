@@ -12,12 +12,26 @@ window.onload = function () {
                     document.getElementById("sendBtnA").click();
         }
     });
+    showMsg();
 
 }
+const showMsg = async () => {
+    await delay(10000);
+    var elemnt = document.getElementsByClassName('message-popup');
+    for (const iterator of elemnt) {
+        iterator.style.display = 'block';
+    }
+    await delay(10000);
+    for (const iterator of elemnt) {
+        iterator.style.display = 'none';
+    }
+};
+const delay = ms => new Promise(res => setTimeout(res, ms));
 function showChatCard(param) {
     var chatbotIcon = document.getElementsByClassName('chat-icon');
     var CloseChatIcon = document.getElementsByClassName('chat-icon-close');
     var chatCard = document.getElementsByClassName('chat-card');
+    var hello = document.getElementsByClassName('message-popup');
     if (param == 'open') {
         for (const iterator of chatCard) {
             iterator.style.display = 'flex';
@@ -27,6 +41,9 @@ function showChatCard(param) {
         }
         for (const iterator of CloseChatIcon) {
             iterator.style.display = 'block';
+        }
+        for (const iterator of hello) {
+            iterator.style.display = 'none';
         }
     } else {
         for (const iterator of chatCard) {
@@ -477,7 +494,7 @@ function filloutA(it) {
                             '<p>' + 'votre demande est annulée' + '</p>' +
                             '</div>' +
                             '</div>';
-                            candItt=-2;
+                        candItt = -2;
                     }
                     else {
                         var control = '<div class="media media-chat media-chat-reverse">' +
@@ -493,22 +510,22 @@ function filloutA(it) {
                             Autre.questions['nom'] = "Quel est votre nom complet ?";
                             question = Autre.questions[key];
                             div.innerHTML += '<div class="media media-chat from-chat">' +
-                            '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
-                            '<div class="media-body">' +
-                            '<p>' + question + '</p>' +
-                            '</div>' +
-                            '</div>';
+                                '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                                '<div class="media-body">' +
+                                '<p>' + question + '</p>' +
+                                '</div>' +
+                                '</div>';
                         }
                         if (["société", "societe"].includes(clientRes['type'].toLowerCase())) {
                             Autre.questions['nom'] = "Qelle est votre Raison Social ?";
                             Autre.questions["nbr_pers"] = "Combien d'employés travaillent dans votre société  ?";
                             question = Autre.questions[key];
                             div.innerHTML += '<div class="media media-chat from-chat">' +
-                            '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
-                            '<div class="media-body">' +
-                            '<p>' + question + '</p>' +
-                            '</div>' +
-                            '</div>';
+                                '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                                '<div class="media-body">' +
+                                '<p>' + question + '</p>' +
+                                '</div>' +
+                                '</div>';
                         }
                         if (!["société", "societe"].includes(clientRes['type'].toLowerCase()) && !["personne physique", "pp"].includes(clientRes['type'].toLowerCase())) {
                             Autre.questions['nom'] = "Qelle est votre Raison Social ?";
@@ -516,13 +533,13 @@ function filloutA(it) {
                             candItt--;
                             console.log("shit");
                             div.innerHTML += '<div class="media media-chat from-chat">' +
-                            '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
-                            '<div class="media-body">' +
-                            '<p>' + Autre.questions['type'] + '</p>' +
-                            '</div>' +
-                            '</div>';
+                                '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                                '<div class="media-body">' +
+                                '<p>' + Autre.questions['type'] + '</p>' +
+                                '</div>' +
+                                '</div>';
                         }
-                        
+
                     }
 
                     Gdiv.scroll(0, Gdiv.scrollHeight);
@@ -575,7 +592,7 @@ function filloutA(it) {
                     '<p>' + 'votre demande est annulée' + '</p>' +
                     '</div>' +
                     '</div>';
-                    candItt=-2;
+                candItt = -2;
                 Gdiv.scroll(0, Gdiv.scrollHeight);
             }
             else {

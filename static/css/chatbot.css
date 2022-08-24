@@ -3,7 +3,15 @@ html,
 * {
     font-family: 'Open Sans', sans-serif;
 }
-
+.message-popup {
+    border: 1px solid #ccc;
+    border-radius: 20px 20px 0 20px;
+    padding: 6px 10px 7px;
+    position: absolute;
+    right: 6rem;
+    bottom: 5rem;
+    display: none;
+}
 .chat-icon-container {
     width: max-content;
     position: fixed;
