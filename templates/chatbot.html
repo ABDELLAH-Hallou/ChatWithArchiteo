@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
-  <script type="text/javascript" src="../static/js/chatbot.js"></script>
 </head>
 
 <body>
@@ -66,10 +65,23 @@
       <a class="publisher-btn" href="#" data-abc="true"><i class="fa fa-smile"></i></a>
       <a class="publisher-btn text-info" id="sendBtn" onclick="send()" name="submitmsg" href="javascript:void(0)"
         data-abc="true"><i class="fa fa-paper-plane"></i></a>
+        <a class="publisher-btn text-info" id="sendBtnC" style="display: none;" onclick="filloutC(candItt);candItt++;" name="submitmsg" href="javascript:void(0)"
+        data-abc="true"><i class="fa fa-paper-plane"></i></a>
+        <a class="publisher-btn text-info" id="sendBtnA" style="display: none;" onclick="filloutA()" name="submitmsg" href="javascript:void(0)"
+        data-abc="true"><i class="fa fa-paper-plane"></i></a>
     </div>
   </div>
 
 
 </body>
+<script>
+  var candArr = ['nom', 'ann_exp', 'employeur', 'expertise', 'type', 'num_tel'];
+  var clientArr = ['type', 'nom', 'nbr_pers', 'besoins', 'num_tel', 'email','adresse'];
+    var candItt = -1;
+    var candidatRes = {};
+    var clientRes = {};
+    var clientService = '';
+</script>
+<script type="text/javascript" src="../static/js/chatbot.js"></script>
 
 </html>
