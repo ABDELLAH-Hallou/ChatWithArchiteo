@@ -16,7 +16,7 @@ window.onload = function () {
 
 }
 const showMsg = async () => {
-    await delay(10000);
+    await delay(5000);
     var elemnt = document.getElementsByClassName('message-popup');
     for (const iterator of elemnt) {
         iterator.style.display = 'block';
