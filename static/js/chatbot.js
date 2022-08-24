@@ -3,10 +3,13 @@ window.onload = function () {
     input.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
-            if (document.getElementById("sendBtn").style.display == 'none')
+            if (document.getElementById("sendBtn").style.display == 'none' && document.getElementById("sendBtnA").style.display == 'none')
                 document.getElementById("sendBtnC").click();
             else
-                document.getElementById("sendBtn").click();
+                if (document.getElementById("sendBtnC").style.display == 'none' && document.getElementById("sendBtnA").style.display == 'none')
+                    document.getElementById("sendBtn").click();
+                else
+                    document.getElementById("sendBtnA").click();
         }
     });
 
@@ -80,31 +83,31 @@ function send() {
                             '</div>';
                         document.getElementById('sendBtn').style.display = "none";
                         document.getElementById('sendBtnC').style.display = "block";
-                    } else{
-                        
-                        if(res == "consultation" || res == "recrutement" || res == "délocalisation" || res == "formation" || res == "Startupping"){
+                    } else {
+
+                        if (res == "consultation" || res == "recrutement" || res == "délocalisation" || res == "formation" || res == "Startupping") {
                             var Autre = autre(res);
                             clientService = res;
                             div.innerHTML += '<div class="media media-chat from-chat">' +
-                            '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
-                            '<div class="media-body">' +
-                            '<p>' + Autre.message + '</p>' +
-                            '</div>' +
-                            '</div>';
-                        document.getElementById('sendBtn').style.display = "none";
-                        document.getElementById('sendBtnA').style.display = "block";
+                                '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                                '<div class="media-body">' +
+                                '<p>' + Autre.message + '</p>' +
+                                '</div>' +
+                                '</div>';
+                            document.getElementById('sendBtn').style.display = "none";
+                            document.getElementById('sendBtnA').style.display = "block";
 
                         }
                         else {
-                        div.innerHTML += '<div class="media media-chat from-chat">' +
-                            '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
-                            '<div class="media-body">' +
-                            '<p>' + res + '</p>' +
-                            '</div>' +
-                            '</div>';
+                            div.innerHTML += '<div class="media media-chat from-chat">' +
+                                '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                                '<div class="media-body">' +
+                                '<p>' + res + '</p>' +
+                                '</div>' +
+                                '</div>';
+                        }
                     }
-                    }
-                    
+
 
                     Gdiv.scroll(0, Gdiv.scrollHeight);
                 } else if (xmlhttp = 400) {
@@ -196,6 +199,13 @@ function filloutC(it) {
 
                 document.getElementById('sendBtnC').style.display = "none";
                 document.getElementById('sendBtn').style.display = "block";
+                div.innerHTML += '<div class="media media-chat from-chat">' +
+                    '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                    '<div class="media-body">' +
+                    '<p>' + 'votre condidature est annulée' + '</p>' +
+                    '</div>' +
+                    '</div>';
+                candItt = -2;
             } else {
                 console.log(Candidature.error['notContinue']);
                 div.innerHTML += '<div class="media media-chat from-chat">' +
@@ -209,7 +219,7 @@ function filloutC(it) {
             Gdiv.scroll(0, Gdiv.scrollHeight);
 
         } else {
-            if (clientmsg != "retour") {
+            if (clientmsg.toLowerCase() != "retour") {
                 var question = Candidature.questions[key];
                 candidatRes[key] = "";
                 // if(candidatRes.hasOwnProperty(candArr[candItt])){
@@ -229,20 +239,39 @@ function filloutC(it) {
                     Gdiv.scroll(0, Gdiv.scrollHeight);
                 }
                 else {
-                    var control = '<div class="media media-chat media-chat-reverse">' +
-                        '<div class="media-body">' +
-                        '<p>' + clientmsg + '</p>' +
-                        '</div>' +
-                        '</div>';
-                    div.innerHTML += control;
-                    candidatRes[candArr[it]] = clientmsg;
-                    console.log(candidatRes);
-                    div.innerHTML += '<div class="media media-chat from-chat">' +
-                        '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
-                        '<div class="media-body">' +
-                        '<p>' + question + '</p>' +
-                        '</div>' +
-                        '</div>';
+                    if (clientmsg.toLowerCase() == "annuler") {
+                        document.getElementById('sendBtnC').style.display = "none";
+                        document.getElementById('sendBtn').style.display = "block";
+                        var control = '<div class="media media-chat media-chat-reverse">' +
+                            '<div class="media-body">' +
+                            '<p>' + clientmsg + '</p>' +
+                            '</div>' +
+                            '</div>';
+                        div.innerHTML += control;
+                        div.innerHTML += '<div class="media media-chat from-chat">' +
+                            '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                            '<div class="media-body">' +
+                            '<p>' + 'votre condidature est annulée' + '</p>' +
+                            '</div>' +
+                            '</div>';
+                        candItt = -2;
+                    } else {
+                        var control = '<div class="media media-chat media-chat-reverse">' +
+                            '<div class="media-body">' +
+                            '<p>' + clientmsg + '</p>' +
+                            '</div>' +
+                            '</div>';
+                        div.innerHTML += control;
+                        candidatRes[candArr[it]] = clientmsg;
+                        console.log(candidatRes);
+                        div.innerHTML += '<div class="media media-chat from-chat">' +
+                            '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                            '<div class="media-body">' +
+                            '<p>' + question + '</p>' +
+                            '</div>' +
+                            '</div>';
+                    }
+
                     Gdiv.scroll(0, Gdiv.scrollHeight);
                 }
 
@@ -278,26 +307,46 @@ function filloutC(it) {
             var Candidature = candidature();
             var div = document.getElementById("chat");
             var Gdiv = document.getElementById("chat-content");
-            var control = '<div class="media media-chat media-chat-reverse">' +
-                '<div class="media-body">' +
-                '<p>' + clientmsg + '</p>' +
-                '</div>' +
-                '</div>';
-            div.innerHTML += control;
-            candidatRes[key] = clientmsg;
-            console.log(candidatRes);
-            div.innerHTML += '<div class="media media-chat from-chat">' +
-                '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
-                '<div class="media-body">' +
-                '<p>' + 'votre condidature est enregistré!' + '</p>' +
-                '</div>' +
-                '</div>';
-            Gdiv.scroll(0, Gdiv.scrollHeight);
-            candItt = -1;
-            document.getElementById('sendBtnC').style.display = "none";
-            document.getElementById('sendBtn').style.display = "block";
+            if (clientmsg.toLowerCase() == "annuler") {
+                document.getElementById('sendBtnC').style.display = "none";
+                document.getElementById('sendBtn').style.display = "block";
+                var control = '<div class="media media-chat media-chat-reverse">' +
+                    '<div class="media-body">' +
+                    '<p>' + clientmsg + '</p>' +
+                    '</div>' +
+                    '</div>';
+                div.innerHTML += control;
+                div.innerHTML += '<div class="media media-chat from-chat">' +
+                    '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                    '<div class="media-body">' +
+                    '<p>' + 'votre condidature est annulée' + '</p>' +
+                    '</div>' +
+                    '</div>';
+                candItt = -2;
+                Gdiv.scroll(0, Gdiv.scrollHeight);
+            } else {
+                var control = '<div class="media media-chat media-chat-reverse">' +
+                    '<div class="media-body">' +
+                    '<p>' + clientmsg + '</p>' +
+                    '</div>' +
+                    '</div>';
+                div.innerHTML += control;
+                candidatRes[key] = clientmsg;
+                console.log(candidatRes);
+                div.innerHTML += '<div class="media media-chat from-chat">' +
+                    '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                    '<div class="media-body">' +
+                    '<p>' + 'votre condidature est enregistré!' + '</p>' +
+                    '</div>' +
+                    '</div>';
+                Gdiv.scroll(0, Gdiv.scrollHeight);
+                candItt = -1;
+                document.getElementById('sendBtnC').style.display = "none";
+                document.getElementById('sendBtn').style.display = "block";
+            }
+
         } else
-            if (clientmsg == "retour") {
+            if (clientmsg.toLowerCase() == "retour") {
                 candidatRes = {};
                 candItt = -1;
                 var key = candArr[candItt + 1];
@@ -340,13 +389,13 @@ function autre(service) {
         'email': "Quel est votre email professionnel ? ",
         'adresse': "Quel est votre adresse ?"
     };
-    if(service.toLowerCase() == "partenariat"){
+    if (service.toLowerCase() == "partenariat") {
         questions["type_part"] = "Quel est le type de votre partenariat ?";
     }
-    if(["consultation", "formation"].includes("partenariat")){
-        questions["domain"] = "Quel est le domain dont vous souhaitez faire la "+service.toLowerCase() + "?";
+    if (["consultation", "formation"].includes("partenariat")) {
+        questions["domain"] = "Quel est le domain dont vous souhaitez faire la " + service.toLowerCase() + "?";
     }
-    if(service.toLowerCase() == "recrutement"){
+    if (service.toLowerCase() == "recrutement") {
         questions["nbr_recrut"] = "Quel est le nombre de personnes à recruter ?";
         questions["commentaires"] = "Ajoutez des commentaires si vous souhaitez";
     }
@@ -356,8 +405,8 @@ function autre(service) {
 
 // function autre
 function filloutA(it) {
-    if (it + 1 < candArr.length) {
-        var key = candArr[it + 1];
+    if (it + 1 < clientArr.length) {
+        var key = clientArr[it + 1];
 
         var clientmsg = document.getElementById("message").value;
         var Autre = autre(clientService);
@@ -372,14 +421,21 @@ function filloutA(it) {
             div.innerHTML += control;
             if (clientmsg.toLowerCase() == "annuler") {
 
-                document.getElementById('sendBtnC').style.display = "none";
+                document.getElementById('sendBtnA').style.display = "none";
                 document.getElementById('sendBtn').style.display = "block";
-            } else {
-                console.log(Candidature.error['notContinue']);
                 div.innerHTML += '<div class="media media-chat from-chat">' +
                     '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
                     '<div class="media-body">' +
-                    '<p>' + Candidature.error['notContinue'] + '</p>' +
+                    '<p>' + 'votre demande est annulée' + '</p>' +
+                    '</div>' +
+                    '</div>';
+                candItt = -2;
+            } else {
+                console.log(Autre.error['notContinue']);
+                div.innerHTML += '<div class="media media-chat from-chat">' +
+                    '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                    '<div class="media-body">' +
+                    '<p>' + Autre.error['notContinue'] + '</p>' +
                     '</div>' +
                     '</div>';
                 candItt--;
@@ -387,11 +443,10 @@ function filloutA(it) {
             Gdiv.scroll(0, Gdiv.scrollHeight);
 
         } else {
-            if (clientmsg != "retour") {
-                var question = Candidature.questions[key];
-                candidatRes[key] = "";
-                // if(candidatRes.hasOwnProperty(candArr[candItt])){
-                if (candidatRes[candArr[it]] === undefined) {
+            if (clientmsg.toLowerCase() != "retour") {
+                var question = Autre.questions[key];
+                clientRes[key] = "";
+                if (clientRes[clientArr[it]] === undefined) {
                     var control = '<div class="media media-chat media-chat-reverse">' +
                         '<div class="media-body">' +
                         '<p>' + clientmsg + '</p>' +
@@ -407,20 +462,69 @@ function filloutA(it) {
                     Gdiv.scroll(0, Gdiv.scrollHeight);
                 }
                 else {
-                    var control = '<div class="media media-chat media-chat-reverse">' +
-                        '<div class="media-body">' +
-                        '<p>' + clientmsg + '</p>' +
-                        '</div>' +
-                        '</div>';
-                    div.innerHTML += control;
-                    candidatRes[candArr[it]] = clientmsg;
-                    console.log(candidatRes);
-                    div.innerHTML += '<div class="media media-chat from-chat">' +
-                        '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
-                        '<div class="media-body">' +
-                        '<p>' + question + '</p>' +
-                        '</div>' +
-                        '</div>';
+                    if (clientmsg.toLowerCase() == "annuler") {
+                        document.getElementById('sendBtnA').style.display = "none";
+                        document.getElementById('sendBtn').style.display = "block";
+                        var control = '<div class="media media-chat media-chat-reverse">' +
+                            '<div class="media-body">' +
+                            '<p>' + clientmsg + '</p>' +
+                            '</div>' +
+                            '</div>';
+                        div.innerHTML += control;
+                        div.innerHTML += '<div class="media media-chat from-chat">' +
+                            '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                            '<div class="media-body">' +
+                            '<p>' + 'votre demande est annulée' + '</p>' +
+                            '</div>' +
+                            '</div>';
+                            candItt=-2;
+                    }
+                    else {
+                        var control = '<div class="media media-chat media-chat-reverse">' +
+                            '<div class="media-body">' +
+                            '<p>' + clientmsg + '</p>' +
+                            '</div>' +
+                            '</div>';
+                        div.innerHTML += control;
+                        clientRes[clientArr[it]] = clientmsg;
+                        console.log(clientRes);
+
+                        if (["personne physique", "pp"].includes(clientRes['type'].toLowerCase())) {
+                            Autre.questions['nom'] = "Quel est votre nom complet ?";
+                            question = Autre.questions[key];
+                            div.innerHTML += '<div class="media media-chat from-chat">' +
+                            '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                            '<div class="media-body">' +
+                            '<p>' + question + '</p>' +
+                            '</div>' +
+                            '</div>';
+                        }
+                        if (["société", "societe"].includes(clientRes['type'].toLowerCase())) {
+                            Autre.questions['nom'] = "Qelle est votre Raison Social ?";
+                            Autre.questions["nbr_pers"] = "Combien d'employés travaillent dans votre société  ?";
+                            question = Autre.questions[key];
+                            div.innerHTML += '<div class="media media-chat from-chat">' +
+                            '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                            '<div class="media-body">' +
+                            '<p>' + question + '</p>' +
+                            '</div>' +
+                            '</div>';
+                        }
+                        if (!["société", "societe"].includes(clientRes['type'].toLowerCase()) && !["personne physique", "pp"].includes(clientRes['type'].toLowerCase())) {
+                            Autre.questions['nom'] = "Qelle est votre Raison Social ?";
+                            Autre.questions["nbr_pers"] = "Combien d'employés travaillent dans votre société  ?";
+                            candItt--;
+                            console.log("shit");
+                            div.innerHTML += '<div class="media media-chat from-chat">' +
+                            '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                            '<div class="media-body">' +
+                            '<p>' + Autre.questions['type'] + '</p>' +
+                            '</div>' +
+                            '</div>';
+                        }
+                        
+                    }
+
                     Gdiv.scroll(0, Gdiv.scrollHeight);
                 }
 
@@ -428,11 +532,11 @@ function filloutA(it) {
 
 
             } else {
-                candidatRes = {};
+                clientRes = {};
                 candItt = -1;
-                var key = candArr[candItt + 1];
-                var question = Candidature.questions[key];
-                candidatRes[key] = "";
+                var key = clientArr[candItt + 1];
+                var question = Autre.questions[key];
+                clientRes[key] = "";
                 var control = '<div class="media media-chat media-chat-reverse">' +
                     '<div class="media-body">' +
                     '<p>' + clientmsg + '</p>' +
@@ -450,36 +554,58 @@ function filloutA(it) {
         }
     }
     else {
-        if (it + 1 == candArr.length && clientmsg != "retour") {
-            var key = candArr[it];
+        if (it + 1 == clientArr.length && clientmsg != "retour") {
+            var key = clientArr[it];
             var clientmsg = document.getElementById("message").value;
-            var Candidature = candidature();
+            var Autre = autre(clientService);
             var div = document.getElementById("chat");
             var Gdiv = document.getElementById("chat-content");
-            var control = '<div class="media media-chat media-chat-reverse">' +
-                '<div class="media-body">' +
-                '<p>' + clientmsg + '</p>' +
-                '</div>' +
-                '</div>';
-            div.innerHTML += control;
-            candidatRes[key] = clientmsg;
-            console.log(candidatRes);
-            div.innerHTML += '<div class="media media-chat from-chat">' +
-                '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
-                '<div class="media-body">' +
-                '<p>' + 'votre condidature est enregistré!' + '</p>' +
-                '</div>' +
-                '</div>';
-            Gdiv.scroll(0, Gdiv.scrollHeight);
-            document.getElementById('sendBtnC').style.display = "none";
-            document.getElementById('sendBtn').style.display = "block";
+            if (clientmsg.toLowerCase() == "annuler") {
+                document.getElementById('sendBtnA').style.display = "none";
+                document.getElementById('sendBtn').style.display = "block";
+                var control = '<div class="media media-chat media-chat-reverse">' +
+                    '<div class="media-body">' +
+                    '<p>' + clientmsg + '</p>' +
+                    '</div>' +
+                    '</div>';
+                div.innerHTML += control;
+                div.innerHTML += '<div class="media media-chat from-chat">' +
+                    '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                    '<div class="media-body">' +
+                    '<p>' + 'votre demande est annulée' + '</p>' +
+                    '</div>' +
+                    '</div>';
+                    candItt=-2;
+                Gdiv.scroll(0, Gdiv.scrollHeight);
+            }
+            else {
+
+                var control = '<div class="media media-chat media-chat-reverse">' +
+                    '<div class="media-body">' +
+                    '<p>' + clientmsg + '</p>' +
+                    '</div>' +
+                    '</div>';
+                div.innerHTML += control;
+                clientRes[key] = clientmsg;
+                console.log(clientRes);
+                div.innerHTML += '<div class="media media-chat from-chat">' +
+                    '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                    '<div class="media-body">' +
+                    '<p>' + 'merci!' + '</p>' +
+                    '</div>' +
+                    '</div>';
+                Gdiv.scroll(0, Gdiv.scrollHeight);
+                document.getElementById('sendBtnA').style.display = "none";
+                document.getElementById('sendBtn').style.display = "block";
+            }
+
         } else
-            if (clientmsg == "retour") {
-                candidatRes = {};
+            if (clientmsg.toLowerCase() == "retour") {
+                clientRes = {};
                 candItt = -1;
-                var key = candArr[candItt + 1];
-                var question = Candidature.questions[key];
-                candidatRes[key] = "";
+                var key = clientArr[candItt + 1];
+                var question = Autre.questions[key];
+                clientRes[key] = "";
                 var control = '<div class="media media-chat media-chat-reverse">' +
                     '<div class="media-body">' +
                     '<p>' + clientmsg + '</p>' +
