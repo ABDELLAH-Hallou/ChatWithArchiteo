@@ -3,6 +3,7 @@ import joblib
 import json
 import tensorflow as tf
 import pickle
+import os
 from tensorflow.keras.models import Sequential, model_from_json
 # Sequential groups a linear stack of layers into a tf.keras.Model
 from tensorflow.keras import Sequential
@@ -53,6 +54,11 @@ app.config['JSON_AS_ASCII'] = False
 @app.route('/', methods=['POST', 'GET'])
 def getResponse():
     if request.method == 'POST':
+        if request.files['file']:
+            file = request.files['file']
+            print(file)
+            file.save(os.path.join('./uploads', file.filename))
+            return render_template('chatbot.html')
         # get files : 
         with open("./model/words.pkl", "rb") as f:
             words = joblib.load(f)
@@ -99,7 +105,15 @@ def getResponse():
         #     return jsonify({'error': 'data not found'})
     else:
         return render_template('chatbot.html')
-
+# uploads_dir = os.path.join(app.instance_path, 'uploads')
+# os.makedirs(uploads_dir, exists_ok=True)
+# from werkzeug import secure_filename
+@app.route('/cv', methods=['POST', 'GET'])
+def getFile():
+    if request.method == 'POST':
+        file = request.files['file']
+        print(file)
+        file.save(os.path.join('./uploads', file.filename))
 
 if __name__ == "__main__":
     app.run(debug=True)

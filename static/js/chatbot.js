@@ -18,13 +18,19 @@ window.onload = function () {
 const showMsg = async () => {
     await delay(5000);
     var elemnt = document.getElementsByClassName('message-popup');
-    for (const iterator of elemnt) {
-        iterator.style.display = 'block';
+    var chatbotIcon = document.getElementsByClassName('chat-icon');
+    for (const ite of chatbotIcon) {
+        if(ite.style.display != 'none'){
+            for (const iterator of elemnt) {
+                iterator.style.display = 'block';
+            }
+            await delay(10000);
+            for (const iterator of elemnt) {
+                iterator.style.display = 'none';
+            }
+        }
     }
-    await delay(10000);
-    for (const iterator of elemnt) {
-        iterator.style.display = 'none';
-    }
+    
 };
 const delay = ms => new Promise(res => setTimeout(res, ms));
 function showChatCard(param) {
@@ -149,21 +155,22 @@ function send() {
 
 function previewFile(input) {
     var div = document.getElementById("chat");
-
+    // cvForm
     var reader = new FileReader();
     reader.readAsDataURL(document.getElementById("file-input").files[0]);
     var filename = document.getElementById("file-input").files[0]['name'];
+    console.log(document.getElementById("file-input").value);
     var extension = filename.split('.').pop();
     var validExtensions = ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'ai'];
     var Gdiv = document.getElementById("chat-content");
     if (validExtensions.includes(extension.toLowerCase())) {
 
         reader.onload = function (REvent) {
-
             div.innerHTML += '<div class="media media-chat media-chat-reverse">' +
                 "<embed    scrolling='yes' height=50px width=50px src='" + REvent.target.result + "' alt='You file is uploaded'>";
 
         };
+        document.getElementById('cvForm').submit();
     } else {
         div.innerHTML += '<div class="media media-chat from-chat">' +
             '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +

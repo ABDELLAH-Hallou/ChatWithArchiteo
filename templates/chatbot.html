@@ -14,7 +14,7 @@
   <div class="chat-container">
 
   </div>
-  <div class="message-popup" >hi how can I help you.</div>
+  <div class="message-popup" >Bonjour comment puis-je vous aidez? </div>
   <div class="chat-icon-container">
     <img onclick="showChatCard('open')" class="chat-icon" src="../static/images/chatbot.png" alt="">
     <img onclick="showChatCard('close')" class="chat-icon-close" src="../static/images/closeChat.png" alt="">
@@ -38,7 +38,7 @@
         <div class="media media-chat from-chat">
           <img class="avatar" src="../static/images/chatbot.png" alt="...">
           <div class="media-body">
-            <p>hi how can I help you.</p>
+            <p>Bonjour comment puis-je vous aidez</p>
           </div>
         </div>
 
@@ -52,17 +52,18 @@
     <div class="publisher bt-1 border-light">
       <img class="avatar avatar-xs" src="../static/images/chatbot.png" alt="...">
       <input class="publisher-input" name="usermsg" id="message" type="text" placeholder="Write something">
+      <form id="cvForm" action = "/" method = "POST" enctype="multipart/form-data">
       <span class="publisher-btn file-group">
         <div>
           <label for="file-input">
             <i class="fa fa-paperclip file-browser"> </i>
           </label>
 
-          <input id="file-input" type="file" onchange="previewFile(this)" style="display: none;" />
+          <input id="file-input" type="file" name="file" onchange="previewFile(this)" style="display: none;" />
         </div>
 
 
-      </span>
+      </span></form>
       <a class="publisher-btn" href="#" data-abc="true"><i class="fa fa-smile"></i></a>
       <a class="publisher-btn text-info" id="sendBtn" onclick="send()" name="submitmsg" href="javascript:void(0)"
         data-abc="true"><i class="fa fa-paper-plane"></i></a>
