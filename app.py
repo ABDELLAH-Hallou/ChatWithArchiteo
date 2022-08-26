@@ -58,28 +58,29 @@ def getResponse():
             file = request.files['file']
             print(file)
             file.save(os.path.join('./uploads', file.filename))
-            return render_template('chatbot.html')
+            return 'done'
         # get files : 
-        with open("./model/words.pkl", "rb") as f:
-            words = joblib.load(f)
-        with open("./model/tags.pkl", "rb") as f:
-            classes = joblib.load(f)
-        # load json and create model
-        json_file = open('./model/model.json', 'r')
-        loaded_model_json = json_file.read()
-        json_file.close()
-        model = model_from_json(loaded_model_json)
-        # load weights into new model
-        model.load_weights("./model/model.h5")
-        with open('./data/data.json', encoding="utf-8") as json_file:
-            data = json.load(json_file)
-        
-        lm = WordNetLemmatizer()
-        req = request.get_json() #get request from client side
-        pattern = req["pattern"]
-        intents = Pclass(pattern, words, classes, lm, model)
-        result = getRes(intents, data)
-        return jsonify(result)
+        # else:
+            # with open("./model/words.pkl", "rb") as f:
+            #     words = joblib.load(f)
+            # with open("./model/tags.pkl", "rb") as f:
+            #     classes = joblib.load(f)
+            # # load json and create model
+            # json_file = open('./model/model.json', 'r')
+            # loaded_model_json = json_file.read()
+            # json_file.close()
+            # model = model_from_json(loaded_model_json)
+            # # load weights into new model
+            # model.load_weights("./model/model.h5")
+            # with open('./data/data.json', encoding="utf-8") as json_file:
+            #     data = json.load(json_file)
+            
+            # lm = WordNetLemmatizer()
+            # req = request.get_json() #get request from client side
+            # pattern = req["pattern"]
+            # intents = Pclass(pattern, words, classes, lm, model)
+            # result = getRes(intents, data)
+            # return jsonify(result)
 
         # if result == "consultation" or result == "recrutement" or result == "délocalisation" or result == "formation" or result == "Startupping":
         #     selectedService = {"service": result}
@@ -108,12 +109,36 @@ def getResponse():
 # uploads_dir = os.path.join(app.instance_path, 'uploads')
 # os.makedirs(uploads_dir, exists_ok=True)
 # from werkzeug import secure_filename
-@app.route('/cv', methods=['POST', 'GET'])
-def getFile():
+# @app.route('/cv', methods=['POST', 'GET'])
+# def getFile():
+#     if request.method == 'POST':
+#         file = request.files['file']
+#         print(file)
+#         file.save(os.path.join('./uploads', file.filename))
+
+@app.route('/chat', methods=['POST', 'GET'])
+def chat():
     if request.method == 'POST':
-        file = request.files['file']
-        print(file)
-        file.save(os.path.join('./uploads', file.filename))
+        with open("./model/words.pkl", "rb") as f:
+            words = joblib.load(f)
+        with open("./model/tags.pkl", "rb") as f:
+            classes = joblib.load(f)
+        # load json and create model
+        json_file = open('./model/model.json', 'r')
+        loaded_model_json = json_file.read()
+        json_file.close()
+        model = model_from_json(loaded_model_json)
+        # load weights into new model
+        model.load_weights("./model/model.h5")
+        with open('./data/data.json', encoding="utf-8") as json_file:
+            data = json.load(json_file)
+        
+        lm = WordNetLemmatizer()
+        req = request.get_json() #get request from client side
+        pattern = req["pattern"]
+        intents = Pclass(pattern, words, classes, lm, model)
+        result = getRes(intents, data)
+        return jsonify(result)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -20,7 +20,7 @@ const showMsg = async () => {
     var elemnt = document.getElementsByClassName('message-popup');
     var chatbotIcon = document.getElementsByClassName('chat-icon');
     for (const ite of chatbotIcon) {
-        if(ite.style.display != 'none'){
+        if (ite.style.display != 'none') {
             for (const iterator of elemnt) {
                 iterator.style.display = 'block';
             }
@@ -30,7 +30,7 @@ const showMsg = async () => {
             }
         }
     }
-    
+
 };
 const delay = ms => new Promise(res => setTimeout(res, ms));
 function showChatCard(param) {
@@ -88,7 +88,7 @@ function send() {
         var data = { "pattern": value };
         var dataToString = JSON.stringify(data);
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("POST", "http://127.0.0.1:5000/", true);
+        xmlhttp.open("POST", "http://127.0.0.1:5000/chat", true);
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == XMLHttpRequest.DONE) { // XMLHttpRequest.DONE == 4
                 if (xmlhttp.status == 200) {
@@ -170,7 +170,36 @@ function previewFile(input) {
                 "<embed    scrolling='yes' height=50px width=50px src='" + REvent.target.result + "' alt='You file is uploaded'>";
 
         };
-        document.getElementById('cvForm').submit();
+        var fileInput = document.getElementById('file-input');
+        console.log(fileInput);
+        var file = fileInput.files[0];
+        console.log(file);
+
+        var fd = new FormData();
+        fd.append("file", file);
+        console.log(fd);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://127.0.0.1:5000/', true);
+        xhr.upload.onprogress = function (e) {
+            if (e.lengthComputable) {
+                var percentComplete = (e.loaded / e.total) * 100;
+                console.log(percentComplete + '% uploaded');
+            }
+        };
+
+        xhr.onreadystatechange = function () {
+            if (xhr.status == 200) {
+                console.log(xhr.responseText);
+            } else if (xhr = 400) {
+                alert('There was an error 4.status =00');
+            } else {
+                alert('something else other than 200 was returned');
+            }
+        };
+
+        xhr.send(fd);
+
     } else {
         div.innerHTML += '<div class="media media-chat from-chat">' +
             '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
