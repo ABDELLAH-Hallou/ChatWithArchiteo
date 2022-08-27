@@ -51,6 +51,7 @@ function showChatCard(param) {
         for (const iterator of hello) {
             iterator.style.display = 'none';
         }
+        document.getElementById("message").focus();
     } else {
         for (const iterator of chatCard) {
             iterator.style.display = 'none';
@@ -96,7 +97,6 @@ function send() {
                     var res = xmlhttp.responseText;
                     var div = document.getElementById("chat");
                     res = res.substring(1, res.length - 2);
-                    console.log(res, res == "candidature");
                     if (res == "candidature") {
                         div.innerHTML += '<div class="media media-chat from-chat">' +
                             '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
@@ -122,12 +122,22 @@ function send() {
 
                         }
                         else {
-                            div.innerHTML += '<div class="media media-chat from-chat">' +
+                            if(["avec plaisir quel est le meilleur moment pour vous?", "avec plaisir quel est le moment qui vous convient?"].includes(res.toLowerCase())){
+                                div.innerHTML += '<div class="media media-chat from-chat">' +
+                                '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                                '<div class="media-body">' +
+                                '<p>' + "Cliquer sur le button pour choisir un créneau qui vous convient" + '</p>' +
+                                '</div>' +
+                                '</div>'+'<button class="rdvBtn" id="rdvBtn" onclick="rdvBtn();" role="button">Cliquer ici</button> ';
+                            }else{
+                                div.innerHTML += '<div class="media media-chat from-chat">' +
                                 '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
                                 '<div class="media-body">' +
                                 '<p>' + res + '</p>' +
                                 '</div>' +
                                 '</div>';
+                            }
+                            
                         }
                     }
 
@@ -149,7 +159,11 @@ function send() {
 
 }
 
-
+function rdvBtn(){
+    document.getElementById("datetime").focus();
+    document.getElementById("datetime").showPicker();
+    console.log('heee');
+}
 
 
 
