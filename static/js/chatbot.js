@@ -89,7 +89,7 @@ function send() {
         var data = { "pattern": value };
         var dataToString = JSON.stringify(data);
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("POST", "http://127.0.0.1:5000/chat", true);
+        xmlhttp.open("POST", "/chat", true);
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == XMLHttpRequest.DONE) { // XMLHttpRequest.DONE == 4
                 if (xmlhttp.status == 200) {
@@ -194,7 +194,7 @@ function previewFile(input) {
         console.log(fd);
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://127.0.0.1:5000/', true);
+        xhr.open('POST', '/', true);
         xhr.upload.onprogress = function (e) {
             if (e.lengthComputable) {
                 var percentComplete = (e.loaded / e.total) * 100;

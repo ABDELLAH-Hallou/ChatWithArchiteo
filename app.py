@@ -13,17 +13,24 @@ from nltk.stem import WordNetLemmatizer
 from flask_restful import Resource, Api
 from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO
-from flask_mysqldb import MySQL
+# from flask_mysqldb import MySQL
+
+from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
 
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:root@localhost/chatbotArchiteo"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 # Required
-app.config["MYSQL_USER"] = "root"
-app.config["MYSQL_PASSWORD"] = "root"
-app.config["MYSQL_DB"] = "chatbot"
+# app.config['MYSQL_HOST'] = 'localhost'
 
-mysql = MySQL(app)
+# app.config["MYSQL_USER"] = "root"
+# app.config["MYSQL_PASSWORD"] = "root"
+# app.config["MYSQL_DB"] = "chatbot"
+
+# mysql = MySQL(app)
 
 api = Api(app)
 app.config['JSON_AS_ASCII'] = False
@@ -37,7 +44,13 @@ def getResponse():
             file.save(os.path.join('./uploads', file.filename))
             return 'done'
     else:
-        return render_template('chatbot.html')
+        # cur = mysql.connection.cursor()
+        # cur.execute("SELECT * FROM jourRdv")
+        # rv = cur.fetchall()
+        # print(rv)
+        # mysql.connection.commit()
+        # cur.close()
+        return render_template('chatbot.html',data = str(rv))
 
 @app.route('/chat', methods=['POST', 'GET'])
 def chat():
