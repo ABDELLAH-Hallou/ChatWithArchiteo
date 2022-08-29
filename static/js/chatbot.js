@@ -162,9 +162,11 @@ function send() {
 function rdvBtn() {
     document.getElementById("datetime").focus();
     document.getElementById("datetime").showPicker();
-    console.log('heee');
 }
-
+function changeDate(){
+    var time = document.getElementById("datetime").value;
+    
+}
 
 
 function previewFile(input) {
