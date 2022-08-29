@@ -456,8 +456,8 @@ def postjourRdv():
     }
     return json.dumps(res)
 
-@app.route('/get-rdv' ,methods='GET')
-def getRdv():
+@app.route('/get-rdvs' ,methods=['GET'])
+def getRdvs():
     res={'les_rdv':[]}
     rendez_vous=models.RendezVous.query.all()
     for rdv in rendez_vous:
@@ -470,7 +470,7 @@ def getRdv():
             }
         )
     return json.dumps(res)
-@app.route('/user-rdv/<usr_id>' ,methods='GET')
+@app.route('/user-rdv/<usr_id>' ,methods=['GET'])
 def getRdv(usr_id):
     res={'les_rdv':[]}
     rendez_vous=models.RendezVous.query.filter_by(id_utilisateur=usr_id).all()
