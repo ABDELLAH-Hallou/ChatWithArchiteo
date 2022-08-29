@@ -122,22 +122,22 @@ function send() {
 
                         }
                         else {
-                            if(["avec plaisir quel est le meilleur moment pour vous?", "avec plaisir quel est le moment qui vous convient?"].includes(res.toLowerCase())){
+                            if (["avec plaisir quel est le meilleur moment pour vous?", "avec plaisir quel est le moment qui vous convient?"].includes(res.toLowerCase())) {
                                 div.innerHTML += '<div class="media media-chat from-chat">' +
-                                '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
-                                '<div class="media-body">' +
-                                '<p>' + "Cliquer sur le button pour choisir un créneau qui vous convient" + '</p>' +
-                                '</div>' +
-                                '</div>'+'<button class="rdvBtn" id="rdvBtn" onclick="rdvBtn();" role="button">Cliquer ici</button> ';
-                            }else{
+                                    '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                                    '<div class="media-body">' +
+                                    '<p>' + "Cliquer sur le button pour choisir un créneau qui vous convient" + '</p>' +
+                                    '</div>' +
+                                    '</div>' + '<button class="rdvBtn" id="rdvBtn" onclick="rdvBtn();" role="button">Cliquer ici</button> ';
+                            } else {
                                 div.innerHTML += '<div class="media media-chat from-chat">' +
-                                '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
-                                '<div class="media-body">' +
-                                '<p>' + res + '</p>' +
-                                '</div>' +
-                                '</div>';
+                                    '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                                    '<div class="media-body">' +
+                                    '<p>' + res + '</p>' +
+                                    '</div>' +
+                                    '</div>';
                             }
-                            
+
                         }
                     }
 
@@ -159,7 +159,7 @@ function send() {
 
 }
 
-function rdvBtn(){
+function rdvBtn() {
     document.getElementById("datetime").focus();
     document.getElementById("datetime").showPicker();
     console.log('heee');
@@ -191,20 +191,30 @@ function previewFile(input) {
 
         var fd = new FormData();
         fd.append("file", file);
+        fd.append("id", candidatureId);
         console.log(fd);
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/', true);
-        xhr.upload.onprogress = function (e) {
-            if (e.lengthComputable) {
-                var percentComplete = (e.loaded / e.total) * 100;
-                console.log(percentComplete + '% uploaded');
-            }
-        };
+        xhr.open('POST', '/cv', true);
+        // xhr.upload.onprogress = function (e) {
+        //     if (e.lengthComputable) {
+        //         var percentComplete = (e.loaded / e.total) * 100;
+        //         console.log(percentComplete + '% uploaded');
+        //     }
+        // };
 
         xhr.onreadystatechange = function () {
             if (xhr.status == 200) {
                 console.log(xhr.responseText);
+                var res = xhr.responseText;
+                res = res.substring(1, res.length - 2);
+                div.innerHTML += '<div class="media media-chat from-chat">' +
+                    '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                    '<div class="media-body">' +
+                    '<p>' + res + '</p>' +
+                    '</div>' +
+                    '</div>';
+                    Gdiv.scroll(0, Gdiv.scrollHeight);
             } else if (xhr = 400) {
                 alert('There was an error 4.status =00');
             } else {
@@ -241,7 +251,9 @@ function candidature() {
         'employeur': "Qu'il est votre employeur actuel s'il existe ?",
         'expertise': "Qu'il est votre domaine d'expertise ?",
         'type': "Est-ce que vous visez un poste précis(Oui/Non), si Oui veuillez le mentionner",
-        'num_tel': "Qu'il est votre numéro de téléphone?"
+        'email': "Quel est votre email ?",
+        'num_tel': "Qu'il est votre numéro de téléphone?",
+        'adresse': "Quel est votre adresse ?"
     };
     return { "questions": questions, "message": message, "error": error, "stops": stops };
 }
@@ -400,16 +412,40 @@ function filloutC(it) {
                 div.innerHTML += control;
                 candidatRes[key] = clientmsg;
                 console.log(candidatRes);
+                // div.innerHTML += '<div class="media media-chat from-chat">' +
+                //     '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                //     '<div class="media-body">' +
+                //     '<p>' + 'votre condidature est enregistré!' + '</p>' +
+                //     '</div>' +
+                //     '</div>';
                 div.innerHTML += '<div class="media media-chat from-chat">' +
                     '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
                     '<div class="media-body">' +
-                    '<p>' + 'votre condidature est enregistré!' + '</p>' +
+                    '<p>' + 'Envoyez nous votre cv!' + '</p>' +
                     '</div>' +
                     '</div>';
                 Gdiv.scroll(0, Gdiv.scrollHeight);
                 candItt = -1;
                 document.getElementById('sendBtnC').style.display = "none";
                 document.getElementById('sendBtn').style.display = "block";
+                var dataToString = JSON.stringify(candidatRes);
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("POST", "/post-candidature", true);
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                        if (xmlhttp.status == 200) {
+                            console.log(xmlhttp.responseText);
+                            res = JSON.parse(xmlhttp.responseText);
+                            candidatureId = res.id;
+                        } else if (xmlhttp = 400) {
+                            alert('There was an error 4.status =00');
+                        } else {
+                            alert('something else other than 200 was returned');
+                        }
+                    }
+                };
+                xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xmlhttp.send(dataToString);
             }
 
         } else
@@ -458,13 +494,28 @@ function autre(service) {
     };
     if (service.toLowerCase() == "partenariat") {
         questions["type_part"] = "Quel est le type de votre partenariat ?";
+        if (!clientArr.includes('type_part')) {
+            clientArr.push('type_part');
+        }
+
     }
-    if (["consultation", "formation"].includes("partenariat")) {
+    if (["consultation", "formation"].includes(service.toLowerCase())) {
         questions["domain"] = "Quel est le domain dont vous souhaitez faire la " + service.toLowerCase() + "?";
+        if (!clientArr.includes('domain')) {
+            clientArr.push('domain');
+        }
     }
     if (service.toLowerCase() == "recrutement") {
+        delete questions.nbr_pers;
+        if (clientArr.includes('nbr_pers')) {
+            clientArr.splice(clientArr.indexOf("nbr_pers"), 1);
+        }
         questions["nbr_recrut"] = "Quel est le nombre de personnes à recruter ?";
         questions["commentaires"] = "Ajoutez des commentaires si vous souhaitez";
+        if (!clientArr.includes('nbr_recrut') && !clientArr.includes('commentaires')) {
+            clientArr.push('nbr_recrut');
+            clientArr.push('commentaires');
+        }
     }
     return { "questions": questions, "message": message, "error": error, "stops": stops };
 }
@@ -472,9 +523,10 @@ function autre(service) {
 
 // function autre
 function filloutA(it) {
+    console.log("arr", clientArr);
     if (it + 1 < clientArr.length) {
         var key = clientArr[it + 1];
-
+        console.log("key: ", key);
         var clientmsg = document.getElementById("message").value;
         var Autre = autre(clientService);
         var div = document.getElementById("chat");
@@ -581,7 +633,6 @@ function filloutA(it) {
                             Autre.questions['nom'] = "Qelle est votre Raison Social ?";
                             Autre.questions["nbr_pers"] = "Combien d'employés travaillent dans votre société  ?";
                             candItt--;
-                            console.log("shit");
                             div.innerHTML += '<div class="media media-chat from-chat">' +
                                 '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
                                 '<div class="media-body">' +
@@ -662,8 +713,25 @@ function filloutA(it) {
                     '</div>' +
                     '</div>';
                 Gdiv.scroll(0, Gdiv.scrollHeight);
+                candItt = -1;
                 document.getElementById('sendBtnA').style.display = "none";
                 document.getElementById('sendBtn').style.display = "block";
+                var dataToString = JSON.stringify(clientRes);
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("POST", "/post-demande", true);
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                        if (xmlhttp.status == 200) {
+                            console.log(xmlhttp.responseText);
+                        } else if (xmlhttp = 400) {
+                            alert('There was an error 4.status =00');
+                        } else {
+                            alert('something else other than 200 was returned');
+                        }
+                    }
+                };
+                xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xmlhttp.send(dataToString);
             }
 
         } else

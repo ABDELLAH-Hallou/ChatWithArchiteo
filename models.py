@@ -63,6 +63,7 @@ class Demande(db.Model):
     nombre_personnes = db.Column(db.Integer, nullable=True )
     besoins =db.Column(db.Text, nullable=True)
     commentaires =db.Column(db.Text, nullable=True)
+    domaine =db.Column(db.Text, nullable=True)
     type_partenariat= db.Column(db.String(100), nullable=True)
     num_recrutement = db.Column(db.Integer, nullable=True )
     STATUSTYPES = [
