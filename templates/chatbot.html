@@ -4,17 +4,19 @@
 <head>
 
   <link rel="stylesheet" href="../static/css/chatbot.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../static/css/audioRecord.css">
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
 </head>
 
 <body>
+
   <div class="chat-container">
-    {{ data }}
+
   </div>
-  <div class="message-popup" >Bonjour comment puis-je vous aidez? </div>
+  <div class="message-popup">Bonjour comment puis-je vous aidez? </div>
   <div class="chat-icon-container">
     <img onclick="showChatCard('open')" class="chat-icon" src="../static/images/chatbot.png" alt="">
     <img onclick="showChatCard('close')" class="chat-icon-close" src="../static/images/closeChat.png" alt="">
@@ -25,11 +27,22 @@
     <div class="chat-card-header">
       <img class="chat-avatar" src="../static/images/chatbot.png" alt="">
       <span class="chat-name" style="color: rgb(255, 255, 255);">Chat With Architeo </span>
-      <svg onclick="showChatCard('close')" class="close-chat" width="16" height="16" viewBox="0 0 23 23" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" fill="white" d="M9.34583 11.2L0.384011 2.23818C-0.128004 1.72617 -0.128004 0.896026 0.384011 0.384011C0.896026 -0.128004 1.72617 -0.128004 2.23818 0.384011L11.2 9.34583L20.1618 0.384011C20.6738 -0.128004 21.504 -0.128004 22.016 0.384011C22.528 0.896026 22.528 1.72617 22.016 2.23818L13.0542 11.2L22.016 20.1618C22.528 20.6738 22.528 21.504 22.016 22.016C21.504 22.528 20.6738 22.528 20.1618 22.016L11.2 13.0542L2.23818 22.016C1.72617 22.528 0.896026 22.528 0.384011 22.016C-0.128003 21.504 -0.128003 20.6738 0.384011 20.1618L9.34583 11.2Z"></path></svg>
+      <svg onclick="showChatCard('close')" class="close-chat" width="16" height="16" viewBox="0 0 23 23" fill="none">
+        <path fill-rule="evenodd" clip-rule="evenodd" fill="white"
+          d="M9.34583 11.2L0.384011 2.23818C-0.128004 1.72617 -0.128004 0.896026 0.384011 0.384011C0.896026 -0.128004 1.72617 -0.128004 2.23818 0.384011L11.2 9.34583L20.1618 0.384011C20.6738 -0.128004 21.504 -0.128004 22.016 0.384011C22.528 0.896026 22.528 1.72617 22.016 2.23818L13.0542 11.2L22.016 20.1618C22.528 20.6738 22.528 21.504 22.016 22.016C21.504 22.528 20.6738 22.528 20.1618 22.016L11.2 13.0542L2.23818 22.016C1.72617 22.528 0.896026 22.528 0.384011 22.016C-0.128003 21.504 -0.128003 20.6738 0.384011 20.1618L9.34583 11.2Z">
+        </path>
+      </svg>
+    </div>
+    <div class="audioRec" id="audioRec">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
 
-
     <div class="chat-container" id="chat-content">
+
       <div id="chat">
 
 
@@ -60,32 +73,35 @@
           </label>
 
           <input id="file-input" type="file" name="file" onchange="previewFile()" style="display: none;" />
-          <input type="datetime-local" name="datetime" onchange="changeDate()" id="datetime" hidden/>
+          <input type="datetime-local" name="datetime" onchange="changeDate()" id="datetime" hidden />
         </div>
 
 
       </span>
-    <!-- </form> -->
-      <a class="publisher-btn" href="#" data-abc="true"><i class="fa fa-smile"></i></a>
-      <a class="publisher-btn text-info" id="sendBtn" onclick="send()" name="submitmsg" href="javascript:void(0)"
+      <!-- </form> -->
+      <a class="publisher-btn" href="javascript:void(0)" onclick="record()" data-abc="true">
+        <i class="fa-solid fa-microphone"></i></a>
+      <a class="publisher-btn" id="sendBtn" onclick="send()" name="submitmsg" href="javascript:void(0)"
         data-abc="true"><i class="fa fa-paper-plane"></i></a>
-        <a class="publisher-btn text-info" id="sendBtnC" style="display: none;" onclick="filloutC(candItt);candItt++;" name="submitmsg" href="javascript:void(0)"
-        data-abc="true"><i class="fa fa-paper-plane"></i></a>
-        <a class="publisher-btn text-info" id="sendBtnA" style="display: none;" onclick="filloutA(candItt);candItt++;" name="submitmsg" href="javascript:void(0)"
-        data-abc="true"><i class="fa fa-paper-plane"></i></a>
+      <a class="publisher-btn" id="sendBtnC" style="display: none;" onclick="filloutC(candItt);candItt++;"
+        name="submitmsg" href="javascript:void(0)" data-abc="true"><i class="fa fa-paper-plane"></i></a>
+      <a class="publisher-btn" id="sendBtnA" style="display: none;" onclick="filloutA(candItt);candItt++;"
+        name="submitmsg" href="javascript:void(0)" data-abc="true"><i class="fa fa-paper-plane"></i></a>
+        <a class="publisher-btn" id="sendBtnAudio" style="display: none;"
+        name="submitmsg" href="javascript:void(0)" data-abc="true"><i class="fa fa-paper-plane"></i></a>
     </div>
   </div>
 
 
 </body>
 <script>
-  var candArr = ['nom', 'ann_exp', 'employeur', 'expertise', 'type', 'email','num_tel','adresse'];
-  var clientArr = ['type', 'nom', 'nbr_pers', 'besoins', 'num_tel', 'email','adresse'];
-    var candItt = -1;
-    var candidatRes = {};
-    var clientRes = {};
-    var clientService = '';
-    var candidatureId = 0;
+  var candArr = ['nom', 'ann_exp', 'employeur', 'expertise', 'type', 'email', 'num_tel', 'adresse'];
+  var clientArr = ['type', 'nom', 'nbr_pers', 'besoins', 'num_tel', 'email', 'adresse'];
+  var candItt = -1;
+  var candidatRes = {};
+  var clientRes = {};
+  var clientService = '';
+  var candidatureId = 0;
 </script>
 <script type="text/javascript" src="../static/js/chatbot.js"></script>
 

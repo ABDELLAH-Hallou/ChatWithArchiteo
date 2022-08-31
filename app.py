@@ -312,7 +312,7 @@ def getJourRdvs():
 
 
 # 
-@app.route('/get-candidatures')
+@app.route('/get-candidatures',methods=['GET'])
 def getCandidatures():
     res = {"candidatures": []}
     candidatures=models.Candidature.query.all()
@@ -359,7 +359,7 @@ def candidatureUser(usr_id):
     return  json.dumps(res)
 
 
-@app.route("/get-demandes")
+@app.route("/get-demandes",methods=['GET'])
 def getDemandes():
     res={'demandes':[]}
     demandes = models.Demande.query.all()
