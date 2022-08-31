@@ -281,7 +281,34 @@ def postDemande():
                    }
     return json.dumps(demande)
 
+@app.route('/get-horaires' , methods=['GET'])
+def getHoraires():
+    res = {'horaires': []}
+    horaires=models.Horaire.query.all()
+    for horaire in horaires:
+        res['horaires'].append(
+            {
+                'id':horaire.id,
+                'heure':horaire.heure
 
+            }
+        )
+    return json.dumps(res)
+@app.route('/get-JourRdvs', methods=['GET'])
+def getJourRdvs():
+    res = {'jours': []}
+    jours = models.JourRdv.query.all()
+    days = {'lundi':1, 'mardi':2, 'mercredi':3, 'jeudi':4, 'vendredi':5, 'samedi':6, 'dimanche':0}
+    for jour in jours:
+        res['jours'].append(
+            {
+                'id': jour.id,
+                'jour': jour.jour,
+                'number':days[jour.jour.lower()]
+                
+            }
+        )
+    return json.dumps(res)
 
 
 # 
@@ -381,19 +408,19 @@ def demande_user(usr_id):
         )
 
     return json.dumps(res)
-@app.route('/get-horaires' , methods=['GET'])
-def getHoraires():
-    res = {'horaires': []}
-    horaires=models.Horaire.query.all()
-    for horaire in horaires:
-        res['horaires'].append(
-            {
-                'id':horaire.id,
-                'heure':horaire.heure
+# @app.route('/get-horaires' , methods=['GET'])
+# def getHoraires():
+#     res = {'horaires': []}
+#     horaires=models.Horaire.query.all()
+#     for horaire in horaires:
+#         res['horaires'].append(
+#             {
+#                 'id':horaire.id,
+#                 'heure':horaire.heure
 
-            }
-        )
-    return json.dumps(res)
+#             }
+#         )
+#     return json.dumps(res)
 
 @app.route('/get-horaire/<id>',methods=['GET'])
 def getHoraire(id):
@@ -404,19 +431,19 @@ def getHoraire(id):
     return json.dumps(res)
 
 
-@app.route('/get-JourRdvs', methods=['GET'])
-def getJourRdvs():
-    res = {'jours': []}
-    jours = models.JourRdv.query.all()
-    for jour in jours:
-        res['jours'].append(
-            {
-                'id': jour.id,
-                'heure': jour.jour
+# @app.route('/get-JourRdvs', methods=['GET'])
+# def getJourRdvs():
+#     res = {'jours': []}
+#     jours = models.JourRdv.query.all()
+#     for jour in jours:
+#         res['jours'].append(
+#             {
+#                 'id': jour.id,
+#                 'heure': jour.jour
 
-            }
-        )
-    return json.dumps(res)
+#             }
+#         )
+#     return json.dumps(res)
 
 
 @app.route('/get-JourRdv/<id>', methods=['GET'])

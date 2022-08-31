@@ -163,13 +163,81 @@ function rdvBtn() {
     document.getElementById("datetime").focus();
     document.getElementById("datetime").showPicker();
 }
-function changeDate(){
-    var time = document.getElementById("datetime").value;
+const isValidDate = function (date, daysNbr) {
+    console.log(date.getDay());
+    if (daysNbr.includes(date.getDay()))
+        return true;
+    else return false;
+}
+
+const isValidTime = function (time, hours) {
+    console.log(hours.includes(time), hours, time);
+    if (hours.includes(time))
+        return true;
+    else return false;
+}
+
+function changeDate() {
+    var datetime = document.getElementById("datetime").value;
+    date = datetime.substr(0, 10);
+    console.log("date", date);
+    date = new Date(date);
+    console.log("to date", date);
+    time = datetime.substr(11);
+    console.log("time", time);
+
+
+    var valid = true;
+    var xmlhttp = new XMLHttpRequest();
+    var xhr = new XMLHttpRequest();
+    var days = "";
+    var daysNbr = [];
+    var hoursObj = "";
+    var hours = [];
+    xmlhttp.open("GET", "/get-JourRdvs", true);
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+            if (xmlhttp.status == 200) {
+                console.log(xmlhttp.responseText);
+                days = JSON.parse(xmlhttp.responseText);
+                for (const iterator of days['jours']) {
+                    daysNbr.push(iterator.number);
+                }
+                valid = isValidDate(date, daysNbr) && valid;
+                xhr.open("GET", "/get-horaires", true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == XMLHttpRequest.DONE) {
+                        if (xhr.status == 200) {
+                            console.log(xhr.responseText);
+                            hoursObj = JSON.parse(xhr.responseText);
+                            for (const iterator of hoursObj['horaires']) {
+                                hours.push(iterator.heure);
+                            }
+                            valid = isValidTime(time, hours) && valid;
+                        } else if (xhr = 400) {
+                            alert('There was an error status =400');
+                        } else {
+                            alert('something else other than 200 was returned');
+                        }
+                    }
+                };
+                xhr.send();
+            } else if (xmlhttp = 400) {
+                alert('There was an error status =400');
+            } else {
+                alert('something else other than 200 was returned');
+            }
+        }
+    };
+    xmlhttp.send();
+
+
     
+
 }
 
 
-function previewFile(input) {
+function previewFile() {
     var div = document.getElementById("chat");
     // cvForm
     var reader = new FileReader();
@@ -189,12 +257,12 @@ function previewFile(input) {
         var fileInput = document.getElementById('file-input');
         console.log(fileInput);
         var file = fileInput.files[0];
-        console.log(file);
+        // console.log(file);
 
         var fd = new FormData();
         fd.append("file", file);
         fd.append("id", candidatureId);
-        console.log(fd);
+        // console.log(fd);
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/cv', true);
@@ -204,10 +272,17 @@ function previewFile(input) {
         //         console.log(percentComplete + '% uploaded');
         //     }
         // };
-
         xhr.onreadystatechange = function () {
             if (xhr.status == 200) {
+
                 console.log(xhr.responseText);
+
+            } else if (xhr = 400) {
+                alert('There was an error 4.status =00');
+            } else {
+                alert('something else other than 200 was returned');
+            }
+            if (xhr.readyState == 4) {
                 var res = xhr.responseText;
                 res = res.substring(1, res.length - 2);
                 div.innerHTML += '<div class="media media-chat from-chat">' +
@@ -216,11 +291,7 @@ function previewFile(input) {
                     '<p>' + res + '</p>' +
                     '</div>' +
                     '</div>';
-                    Gdiv.scroll(0, Gdiv.scrollHeight);
-            } else if (xhr = 400) {
-                alert('There was an error 4.status =00');
-            } else {
-                alert('something else other than 200 was returned');
+                Gdiv.scroll(0, Gdiv.scrollHeight);
             }
         };
 
