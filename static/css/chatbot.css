@@ -8,7 +8,31 @@ html,
     right: 0;
 }
 
-
+.cv{
+    float: right;
+    padding: 6px 14px;
+    border-left: 1px solid;
+    /* border-radius: 1rem;
+    margin-bottom: 1rem; */
+    width: 4rem;
+    height: 4rem;
+}
+.cvContainer{
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    border: 2px solid #737373;
+    width: fit-content;
+    float: right;
+    background-color: #e4e4e4d6;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+}
+.cvContainer span{
+    padding: 6px 14px;
+}
 /* CSS */
 .rdvBtn {
     transform: translate(50%, 0%);

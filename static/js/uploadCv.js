@@ -1,38 +1,26 @@
 function previewFile() {
-    var div = document.getElementById("chat");
-    // cvForm
     var reader = new FileReader();
     reader.readAsDataURL(document.getElementById("file-input").files[0]);
     var filename = document.getElementById("file-input").files[0]['name'];
     console.log(document.getElementById("file-input").value);
     var extension = filename.split('.').pop();
     var validExtensions = ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'ai'];
-    var Gdiv = document.getElementById("chat-content");
     if (validExtensions.includes(extension.toLowerCase())) {
 
         reader.onload = function (REvent) {
-            div.innerHTML += '<div class="media media-chat media-chat-reverse">' +
-                "<embed    scrolling='yes' height=50px width=50px src='" + REvent.target.result + "' alt='You file is uploaded'>";
-
+            var title = (filename.split('\\').pop().length <=15) ? filename.split('\\').pop() : filename.split('\\').pop().slice(0, 13)+"...";
+            cvDiv(title);
         };
         var fileInput = document.getElementById('file-input');
         console.log(fileInput);
         var file = fileInput.files[0];
-        // console.log(file);
 
         var fd = new FormData();
         fd.append("file", file);
         fd.append("id", candidatureId);
-        // console.log(fd);
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/cv', true);
-        // xhr.upload.onprogress = function (e) {
-        //     if (e.lengthComputable) {
-        //         var percentComplete = (e.loaded / e.total) * 100;
-        //         console.log(percentComplete + '% uploaded');
-        //     }
-        // };
         xhr.onreadystatechange = function () {
             if (xhr.status == 200) {
 
@@ -61,26 +49,23 @@ function previewFile() {
                     '</div>' + '</div>'
                     + '<button class="rdvBtn" id="rdvBtn" onclick="rdvBtn();" role="button">Cliquer ici</button> ';
                 Gdiv.scroll(0, Gdiv.scrollHeight);
-                // div.innerHTML += '<div class="media media-chat from-chat">' +
-                //     '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
-                //     '<div class="media-body">' +
-                //     '<p>' + res + '</p>' +
-                //     '</div>' +
-                //     '</div>';
-                // Gdiv.scroll(0, Gdiv.scrollHeight);
             }
         };
 
         xhr.send(fd);
 
     } else {
-        div.innerHTML += '<div class="media media-chat from-chat">' +
-            '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
-            '<div class="media-body">' +
-            '<p>' + 'Format de fichier non valide' + '</p>' +
-            '</div>' +
-            '</div>';
+        fromChat('Format de fichier non valide');
 
     }
-    Gdiv.scroll(0, Gdiv.scrollHeight);
+}
+
+function cvDiv(res){
+    var div = document.getElementById("chat");
+    var Gdiv = document.getElementById("chat-content");
+    div.innerHTML += '<div class="media media-chat media-chat-reverse">'+
+    '<div class="media-body">'+'<div class="cvContainer">'+
+        '<svg class="cv" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z" /></svg>'+
+      '<span>'+res+'</span></div></div></div>';
+      Gdiv.scroll(0, Gdiv.scrollHeight);
 }
