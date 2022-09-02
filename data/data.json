@@ -20,7 +20,7 @@
     },
     {
         "tag" : "Consulting",
-        "patterns" : ["Consulting","Consulting IT","Service de Consulting IT","Service de Consulting","consultation","je souhaiterais beneficier de service de consultation","Pourrais-je bénéficier d'une consultation","Je veux une consultation","je veu consulter",""],
+        "patterns" : ["Consulting","Consulting IT","Service de Consulting IT","Service de Consulting","consultation","je souhaiterais beneficier de service de consultation","Pourrais-je bénéficier d'une consultation","Je veux une consultation","je veux consulter"],
         "responses": ["consultation"]
     },
     {

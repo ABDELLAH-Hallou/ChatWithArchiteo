@@ -200,13 +200,17 @@ def wordBag(text, vocab, lm):
 def Pclass(text, vocab, labels, lm, model):
     bagOfWords = wordBag(text, vocab, lm)
     result = model.predict(np.array([bagOfWords]))[0]
+    print(result)
     thresh = 0.2
     prediction = [[idx, res] for idx, res in enumerate(result) if res > thresh]
-
-    prediction.sort(key=lambda x: x[1], reverse=True)
-    newList = []
-    for r in prediction:
-        newList.append(labels[r[0]])
+    print(prediction)
+    if not prediction:
+        newList=['what']
+    else:
+        prediction.sort(key=lambda x: x[1], reverse=True)
+        newList = []
+        for r in prediction:
+            newList.append(labels[r[0]])
     return newList
 
 
