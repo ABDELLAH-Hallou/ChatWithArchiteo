@@ -25,7 +25,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 api = Api(app)
 app.config['JSON_AS_ASCII'] = False
-
+# SQLALCHEMY_ENGINE_OPTIONS = {
+#     'max_overflow':10000
+# }
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -331,22 +333,34 @@ def postRdv():
     print(date)
     Rdv = models.RendezVous(id_utilisateur=userId,
                             dateRdv=date, typeRdv=typeRdv)
-    # user = models.Utilisateur.query.filter_by(id=userId).first()
-    # user.rdv.append(Rdv)
-    # db.session.merge(user)
     db.session.add(Rdv)
     db.session.commit()
     res = {
         'id': Rdv.id,
         'id_utilisateur': Rdv.id_utilisateur,
         'dateRdv': str(Rdv.dateRdv),
-        'typeRdv': str(Rdv.typeRdv)
+        'typeRdv': Rdv.typeRdv.value
     }
+    return json.dumps(res)
+# app.config['SQLALCHEMY_POOL_SIZE'] = 0
+# app.config['SQLALCHEMY_MAX_OVERFLOW'] = 0
+
+@app.route('/get-rdvs', methods=['GET'])
+def getRdvs():
+    res = {'les_rdv': []}
+    rendez_vous = models.RendezVous.query.all()
+    for rdv in rendez_vous:
+        res['les_rdv'].append(
+            {
+                'id': rdv.id,
+                'id_utilisateur': rdv.id_utilisateur,
+                'dateRdv': str(rdv.dateRdv),
+                'typeRdv': rdv.typeRdv.value
+            }
+        )
     return json.dumps(res)
 
 #
-
-
 @app.route('/get-candidatures', methods=['GET'])
 def getCandidatures():
     res = {"candidatures": []}
@@ -360,23 +374,22 @@ def getCandidatures():
                 'ex_eployeur': candidature.ex_eployeur,
                 'post_desire': candidature.post_desire,
                 'cv': candidature.cv,
-                'statut': candidature.statut,
+                'statut': candidature.statut.value,
 
             }
 
 
         )
-    return json.dumps(res)
+    return  json.dumps(res)
 
 
 @app.route('/candidature-user/<usr_id>', methods=['GET'])
 def candidatureUser(usr_id):
     res = {'user_candidatures': []}
-    user_candidatures = models.candidat.query.filter_by(
-        id_utilisateur=usr_id).all()
-    for user_candidature in user_candidatures:
-        candidature = models.Candidature.query.filter_by(
-            id=user_candidature.id_candidature).first()
+    user=models.Utilisateur.query.filter_by(id=usr_id).first()
+    candidatures=user.cnd
+    for candidature in candidatures:
+
         res['user_candidatures'].append(
             {
                 'id': candidature.id,
@@ -385,7 +398,7 @@ def candidatureUser(usr_id):
                 'ex_eployeur': candidature.ex_eployeur,
                 'post_desire': candidature.post_desire,
                 'cv': candidature.cv,
-                'statut': candidature.statut,
+                'statut': candidature.statut.value,
 
             }
 
@@ -410,7 +423,7 @@ def getDemandes():
                 'commentaires': demande.commentaires,
                 'type_partenariat': demande.type_partenariat,
                 'num_recrutement': demande.num_recrutement,
-                'statut': demande.statut
+                'statut': demande.statut.value
             }
         )
 
@@ -420,11 +433,10 @@ def getDemandes():
 @app.route('/demande-user/<usr_id>', methods=['GET'])
 def demande_user(usr_id):
     res = {'user_demandes': []}
-    user_demandes = models.client.query.filter_by(id_utilisateur=usr_id).all()
-    for user_demande in user_demandes:
-        demande = models.Demande.query.filter_by(
-            id=user_demande.id_demande).first()
-        res['user_demande'].append(
+    user = models.Utilisateur.query.filter_by(id=usr_id).first()
+    demandes=user.clt
+    for demande in demandes:
+        res['user_demandes'].append(
             {
                 'id': demande.id,
                 'type_service': demande.type_service,
@@ -435,27 +447,13 @@ def demande_user(usr_id):
                 'commentaires': demande.commentaires,
                 'type_partenariat': demande.type_partenariat,
                 'num_recrutement': demande.num_recrutement,
-                'statut': demande.statut
+                'statut': demande.statut.value
             }
 
 
         )
 
     return json.dumps(res)
-# @app.route('/get-horaires' , methods=['GET'])
-# def getHoraires():
-#     res = {'horaires': []}
-#     horaires=models.Horaire.query.all()
-#     for horaire in horaires:
-#         res['horaires'].append(
-#             {
-#                 'id':horaire.id,
-#                 'heure':horaire.heure
-
-#             }
-#         )
-#     return json.dumps(res)
-
 
 @app.route('/get-horaire/<id>', methods=['GET'])
 def getHoraire(id):
@@ -464,21 +462,6 @@ def getHoraire(id):
     res['id'] = horaire.id
     res['heure'] = horaire.heure
     return json.dumps(res)
-
-
-# @app.route('/get-JourRdvs', methods=['GET'])
-# def getJourRdvs():
-#     res = {'jours': []}
-#     jours = models.JourRdv.query.all()
-#     for jour in jours:
-#         res['jours'].append(
-#             {
-#                 'id': jour.id,
-#                 'heure': jour.jour
-
-#             }
-#         )
-#     return json.dumps(res)
 
 
 @app.route('/get-JourRdv/<id>', methods=['GET'])
@@ -492,8 +475,10 @@ def getJourRdv(id):
 
 @app.route('/post-horaire', methods=['POST'])
 def postHoraire():
-
-    horaire = models.Horaire(id=1, heure="18h")
+    req = request.get_json()
+    id=req["id"]
+    heure=req["heure"]
+    horaire = models.Horaire(id=id, heure=heure)
     models.db.session.add(horaire)
     models.db.session.commit()
     horaire = models.Horaire.query.filter_by(id=horaire.id).first()
@@ -507,36 +492,23 @@ def postHoraire():
 
 @app.route('/post-jourRdv', methods=['POST'])
 def postjourRdv():
-    day = models.JourRdv(id=1, jour="Jeudi")
+    req = request.get_json()
+    id=req["id"]
+    jour=req["jour"]
+    day = models.JourRdv(id=id, jour=jour)
     models.db.session.add(day)
     models.db.session.commit()
-    day = models.Horaire.query.filter_by(id=day.id).first()
+    day = models.JourRdv.query.filter_by(id=id).first()
     res = {
         'id': day.id,
-        'jour': day.heure
+        'jour': day.jour
 
     }
     return json.dumps(res)
 
 
-@app.route('/get-rdvs', methods=['GET'])
-def getRdvs():
-    res = {'les_rdv': []}
-    rendez_vous = models.RendezVous.query.all()
-    for rdv in rendez_vous:
-        res['les_rdv'].append(
-            {
-                'id': rdv.id,
-                'id_utilisateur': rdv.id_utilisateur,
-                'dateRdv': rdv.dateRdv,
-                'typeRdv': rdv.typeRdv
-            }
-        )
-    return json.dumps(res)
-
-
 @app.route('/user-rdv/<usr_id>', methods=['GET'])
-def getRdv(usr_id):
+def getuserRdv(usr_id):
     res = {'les_rdv': []}
     rendez_vous = models.RendezVous.query.filter_by(
         id_utilisateur=usr_id).all()
@@ -545,12 +517,10 @@ def getRdv(usr_id):
             {
                 'id': rdv.id,
                 'id_utilisateur': rdv.id_utilisateur,
-                'dateRdv': rdv.dateRdv,
-                'typeRdv': rdv.typeRdv
+                'dateRdv': str(rdv.dateRdv),
+                'typeRdv': rdv.typeRdv.value
             }
         )
     return json.dumps(res)
-
-
 if __name__ == "__main__":
     app.run(debug=True)

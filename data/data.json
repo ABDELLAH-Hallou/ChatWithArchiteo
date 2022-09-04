@@ -1,10 +1,10 @@
 {"intents": [
     {"tag": "goodbye",
-              "patterns": [ "bye", "later","Salut!","Au revoir","tchao","see ya", "adios", "cya","Bonne journée","Bonne soirée","À tout à l’heure","À plus tard","À bientôt","À demain", "À la prochaine", "à la prochaine fois","Bonne nuit", "Adieu"],
+              "patterns": [ "bye", "later","Salut!","Au revoir","tchao","see ya", "adios", "cya","Bonne journée","Bonne soirée","À tout à l’heure","À plus tard","À bientôt","À demain", "À la prochaine", "à la prochaine fois","Bonne nuit", "Adieu","A tout","bye bye","Adios"],
               "responses": ["C'était sympa de te parler", "à plus tard", "On se reparle très vite!","Bye"]
              },
     {"tag": "greeting",
-              "patterns": [ "Hi", "Hello", "Hey","Bonjour!", "Salut!","Bonsoir","Allô", "La forme?", "yo", "ça roule?"],
+              "patterns": [ "Hi", "Hello", "Hey","Bonjour!", "Salut!","Bonsoir","Allô", "La forme?", "yo", "ça roule?","Wa feen","Salam","Bonne après midi","Santé"],
               "responses": ["Salut à toi!", "Comment vas tu?", "Salutations!", "Enchanté", "Hi :)"]
              },
     {
@@ -14,18 +14,18 @@
     },
     {
         "tag" : "services",
-        "patterns" : ["Quels sont vos produits et services ?","Qu'est-ce que vous offrez","Services"],
+        "patterns" : ["Quels sont vos produits et services ?","Qu'est-ce que vous faites","Que faites vous","Quel est votre travail","Que portez vous","Quel est vous domaines ","Quel est votre spécialité ","Dans quoi vous excelez","Comment je peux bénéficier de votre entreprise ?","Pourquoi est-elle créée votre entreprise","Comment pouvez vous m'aider ?","De quoi êtes vous capable ?","Qu'est-ce que vous offrez","Services","Je souhaite bénéficier de vos services"],
         "responses": ["Consulting IT. Portage salariale. Offshoring. Formation. Startupping",
                       "Nous nous spécialisons dans l'utilisation de tests de compétences de scénarios modernes et éprouvés pour choisir parmi le TOP 1% des talents informatiques au Maroc.. Nous excellons dans la fourniture d'une formation de haute qualité pour être bien préparé pour passer votre certification informatique.. Nous mettons à votre disposition des consultants experts de haut niveau qui peuvent conduire votre entreprise vers le succès.. Nous boostons votre équipe pour qu'elle atteigne et dépasse ses objectifs en réalisant son plein potentiel en toute simplicité !. Lequelle vous intéresse le plus (candidature/consultation/coaching/IT Certification "]
     },
     {
         "tag" : "Consulting",
-        "patterns" : ["Consulting","Consulting IT","Service de Consulting IT","Service de Consulting","consultation","je souhaiterais beneficier de service de consultation","Pourrais-je bénéficier d'une consultation","Je veux une consultation","je veux consulter"],
+        "patterns" : ["Consulting","Consulting IT","Service de Consulting IT","Service de Consulting","consultation","je souhaiterais beneficier de service de consultation","Pourrais-je bénéficier d'une consultation","Je veux une consultation","je veux consulter","je souhaiterais beneficier de service de consultation","Pourrais-je bénéficier d'une consultation","J'ai des questions ?","J'ai un souci ?","J'ai un problème","J'ai une intérogation","J'ai une enquête ?"],
         "responses": ["consultation"]
     },
     {
         "tag" : "Recruitment",
-        "patterns" : ["Portage salariale","je suis un recruteur","Service du recrutement","Service du Portage salariale","je souhaiterais beneficier de service du recrutement","Je veux embaucher des gens"],
+        "patterns" : ["Portage salariale","je suis un recruteur","Service du recrutement","Service du Portage salariale","je souhaiterais beneficier de service du recrutement","Je veux embaucher des gens","Je veux des employés ","Je veux des salariés","embauchage", "embauche", "embrigadement", "engagement", "enrégimentement", "enrôlement"],
         "responses": ["recrutement"]
     },
     {
@@ -35,7 +35,7 @@
     },
     {
         "tag" : "Training",
-        "patterns" : ["Formation","Training","je souhaiterais bénéficier d'une formation","Pourrais-je bénéficier d'une formation"],
+        "patterns" : ["Formation","Training","je souhaiterais bénéficier d'une formation","Pourrais-je bénéficier d'une formation","je veux m'entrainer ","est-ce que vous faites des formations","combien coûte votre formation","de quoi se compose votre formation ","apprentissage","développement", "éducation", "façonnage", "façonnement", "initiation", "préparation"],
         "responses": ["formation"]
     },
     {
@@ -45,12 +45,12 @@
     },
     {
         "tag" : "Candidature",
-        "patterns" : ["Candidature","postuler à une offre d'emploi","je souhaiterais poser ma candidature pour le poste de","je souhaiterais poser ma candidature","je veux déposer mon CV","je veux travailler", "je veux un poste", "Est-ce qu'il y a un poste disponible ?","Est-ce vous recrutez les gens ?","puis-je postuler à un poste?","Est-ce que vous faites travailler les gens?","je souhaite déposer ma candidature afin de postuler à un poste?"],
+        "patterns" : ["Candidature","postuler à une offre d'emploi","je souhaiterais poser ma candidature pour le poste de","je souhaiterais poser ma candidature","je veux déposer mon CV","je veux travailler", "je veux un poste", "Est-ce qu'il y a un poste disponible ?","Est-ce vous recrutez les gens ?","puis-je postuler à un poste?","Est-ce que vous faites travailler les gens?","je souhaite déposer ma candidature afin de postuler à un poste?","je veux déposer mon CV","je suis un candidat","je suis un salarié","je suis un employé","je cherche un travail","je cherche un bolot","est-ce que vous accueillez des employés ?","est-ce que vous accueillez des salariés ?","avez vous besoin du personnel ?","demande","postulation","je veux un entretien"],
         "responses": ["candidature"]
     },
     {
         "tag" : "about",
-        "patterns" : ["qui êtes-vous?","Alors, qui êtes-vous?","Je souhaite bénéficier de vos services","à qui je m'adresse","à qui je parle","qu'est ce que vous faites"],
+        "patterns" : ["qui êtes-vous?","Alors, qui êtes-vous?","à qui je m'adresse","à qui je parle","qu'est ce que vous faites","puis-je te présenter","présentez vous","présente toi","t'es qui","tu es qui ","a qui je parle "],
         "responses": ["Architeo est un cabinet de consulting et conseil IT basé sur Rabat .. Nous nous spécialisons dans le portage salariale , la formations IT et le développement logiciel.. Notre pool de talents opèrent dans differents branches et secteurs (Mobile, technique, digital, management, BI...)."]
     },
     {
@@ -60,8 +60,8 @@
     },
     {
         "tag" : "ask for appointment",
-        "patterns" : ["Je veux prendre un rendez-vous","puis-je prendre rendez-vous avec un conseiller?","est-ce que je peux prendre un rendez-vous?","Je veux prendre rendez-vous pour avoir un conseil financier.","rendez-vous"],
-        "responses": ["Avec plaisir quel est le meilleur moment pour vous?", "Avec plaisir quel est le moment qui vous convient?"]
+        "patterns" : ["Je veux prendre un rendez-vous","puis-je prendre rendez-vous avec un conseiller?","est-ce que je peux prendre un rendez-vous?","Je veux prendre rendez-vous pour avoir un conseil financier.","rendez-vous","je veux voir le dirécteur","je veux parler à un responsable","meeting","entrevue", "rencontre", "tête-à-tête","rancard", "rancart", "rencard","rendez vous"],
+        "responses": ["de quel service vous souhaitez bénéficier? Notre entreprise propose des services comme acueillir des candidatures,donner des formations,répondre à des consultations,réaliser des projets informatiques    "]
     },
     {    "tag" : "name",
          "patterns" : ["comment tu t'appeles","quel est ton nom","comment je peux t'appeler","ton nom "],
@@ -70,14 +70,14 @@
 
     {
         "tag" : "compliment",
-        "patterns" : ["c bon","magnifique","j'adore ton travail","c formidable","merci","merci infiniment","c'est joli","merci beaucoup","je te remercie","je vous remercie","c'est une belle conversation","très intéressant","je t'aime","je kiffe ton travail","merci pour ton aide"],
+        "patterns" : ["c bon","magnifique","j'adore ton travail","c formidable","merci","merci infiniment","c'est joli","merci beaucoup","je te remercie","je vous remercie","c'est une belle conversation","très intéressant","je t'aime","je kiffe ton travail","merci pour ton aide","merci pour tout","genial"],
         "responses" : ["Ravi de vous servir ","Avec grand plaisir","C'est un honneur pour moi "]
     },
 
     {
         "tag" : "made",
         "patterns" : [ "qui t'a créé","qui t'a développé","qui est ton patron ?","par quel langage t'es créé","par quoi t'es créé","pourquoi t'es la ","qu'est que tu fais ici?","c'est quoi ton rôle" ],
-        "responses" : ["je suis un chatbot développé par des jeunes développeurs avec le langage python pour vous servir et satisfaire votre besoin "]
+        "responses" : ["je suis un chatbot développé par des jeunes ingénieurs avec le langage python pour vous servir et satisfaire votre besoin "]
     },
     {
         "tag" : "form",

@@ -88,8 +88,9 @@ function send() {
                     console.log(xmlhttp.responseText);
                     var res = xmlhttp.responseText;
                     res = res.substring(1, res.length - 2);
+                    console.log(res);
                     if (res == "candidature") {
-                            fromChat(Candidature.message);
+                        fromChat(Candidature.message);
                         document.getElementById('sendBtn').style.display = "none";
                         document.getElementById('sendBtnC').style.display = "block";
                     } else {
@@ -97,22 +98,30 @@ function send() {
                         if (res == "consultation" || res == "recrutement" || res == "délocalisation" || res == "formation" || res == "Startupping") {
                             var Autre = autre(res);
                             clientService = res;
-                                fromChat(Autre.message);
+                            fromChat(Autre.message);
                             document.getElementById('sendBtn').style.display = "none";
                             document.getElementById('sendBtnA').style.display = "block";
 
                         }
                         else {
-                            // if (["avec plaisir quel est le meilleur moment pour vous?", "avec plaisir quel est le moment qui vous convient?"].includes(res.toLowerCase())) {
+                            // if ("de quel service vous souhaitez bénéficier? Notre entreprise propose des services comme acueillir des candidatures,donner des formations,répondre à des consultations,réaliser des projets informatiques    " == res) {
+                            //     var div = document.getElementById("chat");
+                            //     var Gdiv = document.getElementById("chat-content");
                             //     div.innerHTML += '<div class="media media-chat from-chat">' +
                             //         '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
                             //         '<div class="media-body">' +
                             //         '<p>' + "Cliquer sur le button pour choisir un créneau qui vous convient" + '</p>' +
-                            //         '</div>' +
-                            //         '</div>' + '<button class="rdvBtn" id="rdvBtn" onclick="rdvBtn();" role="button">Cliquer ici</button> ';
+                            //         '</div>' + '</div>'
+                            //         + '<div class="media media-chat from-chat">' +
+                            //         '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                            //         '<div class="media-body">' +
+                            //         '<p>' + "les créneaux disponibles sont Lundi et Jeudi à 10:00, 15:00 et 17:00" + '</p>' +
+                            //         '</div>' + '</div>'
+                            //         + '<button class="rdvBtn" id="rdvBtn" onclick="rdvBtn();" role="button">Cliquer ici</button> ';
+                            //     Gdiv.scroll(0, Gdiv.scrollHeight);
                             // } else {
-                            fromChat(res);
-
+                                fromChat(res);
+                            // }
                         }
                     }
                 } else if (xmlhttp = 400) {
@@ -129,13 +138,13 @@ function send() {
 function fromChat(res) {
     var div = document.getElementById("chat");
     var Gdiv = document.getElementById("chat-content");
-    div.innerHTML +='<div class="media media-chat from-chat">' + '<img class="avatar" src="../static/images/chatbot.png" alt="...">' + '<div class="media-body">' + '<p>' + res + '</p>' + '</div>' + '</div>';
+    div.innerHTML += '<div class="media media-chat from-chat">' + '<img class="avatar" src="../static/images/chatbot.png" alt="...">' + '<div class="media-body">' + '<p>' + res + '</p>' + '</div>' + '</div>';
     Gdiv.scroll(0, Gdiv.scrollHeight);
 }
 
 function fromUser(msg) {
     var div = document.getElementById("chat");
     var Gdiv = document.getElementById("chat-content");
-    div.innerHTML +='<div class="media media-chat media-chat-reverse">' + '<div class="media-body">' + '<p>' + msg + '</p>' + '</div>' + '</div>';
+    div.innerHTML += '<div class="media media-chat media-chat-reverse">' + '<div class="media-body">' + '<p>' + msg + '</p>' + '</div>' + '</div>';
     Gdiv.scroll(0, Gdiv.scrollHeight);
 }
