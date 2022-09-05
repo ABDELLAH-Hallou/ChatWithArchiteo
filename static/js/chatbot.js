@@ -70,10 +70,10 @@ function showChatCard(param) {
 function send() {
 
     var clientmsg = document.getElementById("message").value;
+    getResponse(clientmsg);
 
-    var Candidature = candidature();
-
-
+}
+function getResponse(clientmsg) {
     if (clientmsg != "") {
         document.getElementById("message").value = "";
         fromUser(clientmsg);
@@ -90,6 +90,7 @@ function send() {
                     res = res.substring(1, res.length - 2);
                     console.log(res);
                     if (res == "candidature") {
+                        var Candidature = candidature();
                         fromChat(Candidature.message);
                         document.getElementById('sendBtn').style.display = "none";
                         document.getElementById('sendBtnC').style.display = "block";
@@ -120,7 +121,7 @@ function send() {
                             //         + '<button class="rdvBtn" id="rdvBtn" onclick="rdvBtn();" role="button">Cliquer ici</button> ';
                             //     Gdiv.scroll(0, Gdiv.scrollHeight);
                             // } else {
-                                fromChat(res);
+                            fromChat(res);
                             // }
                         }
                     }

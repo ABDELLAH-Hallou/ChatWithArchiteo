@@ -1,3 +1,4 @@
+import speech_recognition as sr
 from dateutil import parser
 import models
 from prodFunc import *
@@ -28,6 +29,7 @@ app.config['JSON_AS_ASCII'] = False
 # SQLALCHEMY_ENGINE_OPTIONS = {
 #     'max_overflow':10000
 # }
+
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -345,6 +347,7 @@ def postRdv():
 # app.config['SQLALCHEMY_POOL_SIZE'] = 0
 # app.config['SQLALCHEMY_MAX_OVERFLOW'] = 0
 
+
 @app.route('/get-rdvs', methods=['GET'])
 def getRdvs():
     res = {'les_rdv': []}
@@ -360,7 +363,35 @@ def getRdvs():
         )
     return json.dumps(res)
 
+
+
+
+
+@app.route('/vocal', methods=['POST'])
+def postVcl():
+    if request.method == 'POST':
+        if request.files['vcl']:
+            AUDIO_FILE = request.files['vcl']
+            
+            # source.save(os.path.join('./uploads/audio.wav'))
+            # AUDIO_FILE = os.path.join('./uploads/audio.wav')
+            print(AUDIO_FILE)
+            # with sr.Microphone() as source2:
+            r = sr.Recognizer()
+            with sr.AudioFile(AUDIO_FILE) as source:
+                r.adjust_for_ambient_noise(source, duration=0.2)
+                audio = r.record(source)
+            
+            # audio = r.listen(source)
+            MyText = r.recognize_google(audio, language='fr-FR')
+            MyText = MyText.lower()
+            print(MyText)
+            res = MyText
+            return jsonify(res)
+
 #
+
+
 @app.route('/get-candidatures', methods=['GET'])
 def getCandidatures():
     res = {"candidatures": []}
@@ -380,14 +411,14 @@ def getCandidatures():
 
 
         )
-    return  json.dumps(res)
+    return json.dumps(res)
 
 
 @app.route('/candidature-user/<usr_id>', methods=['GET'])
 def candidatureUser(usr_id):
     res = {'user_candidatures': []}
-    user=models.Utilisateur.query.filter_by(id=usr_id).first()
-    candidatures=user.cnd
+    user = models.Utilisateur.query.filter_by(id=usr_id).first()
+    candidatures = user.cnd
     for candidature in candidatures:
 
         res['user_candidatures'].append(
@@ -434,7 +465,7 @@ def getDemandes():
 def demande_user(usr_id):
     res = {'user_demandes': []}
     user = models.Utilisateur.query.filter_by(id=usr_id).first()
-    demandes=user.clt
+    demandes = user.clt
     for demande in demandes:
         res['user_demandes'].append(
             {
@@ -454,6 +485,7 @@ def demande_user(usr_id):
         )
 
     return json.dumps(res)
+
 
 @app.route('/get-horaire/<id>', methods=['GET'])
 def getHoraire(id):
@@ -476,8 +508,8 @@ def getJourRdv(id):
 @app.route('/post-horaire', methods=['POST'])
 def postHoraire():
     req = request.get_json()
-    id=req["id"]
-    heure=req["heure"]
+    id = req["id"]
+    heure = req["heure"]
     horaire = models.Horaire(id=id, heure=heure)
     models.db.session.add(horaire)
     models.db.session.commit()
@@ -493,8 +525,8 @@ def postHoraire():
 @app.route('/post-jourRdv', methods=['POST'])
 def postjourRdv():
     req = request.get_json()
-    id=req["id"]
-    jour=req["jour"]
+    id = req["id"]
+    jour = req["jour"]
     day = models.JourRdv(id=id, jour=jour)
     models.db.session.add(day)
     models.db.session.commit()
@@ -522,5 +554,7 @@ def getuserRdv(usr_id):
             }
         )
     return json.dumps(res)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
