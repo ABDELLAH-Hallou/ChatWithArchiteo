@@ -20,10 +20,14 @@ function candidature() {
 
 
 function filloutC(it) {
+    var clientmsg = document.getElementById("message").value;
+    postCandidature(it, clientmsg);
+}
+function postCandidature(it, clientmsg){
     if (it + 1 < candArr.length) {
         var key = candArr[it + 1];
 
-        var clientmsg = document.getElementById("message").value;
+        // var clientmsg = document.getElementById("message").value;
         var Candidature = candidature();
         if (it < 0 && clientmsg.toLowerCase() != "continuer") {
             fromUser(clientmsg);
@@ -73,7 +77,7 @@ function filloutC(it) {
     else {
         if (it + 1 == candArr.length && clientmsg != "retour") {
             var key = candArr[it];
-            var clientmsg = document.getElementById("message").value;
+            // var clientmsg = document.getElementById("message").value;
             var Candidature = candidature();
             if (clientmsg.toLowerCase() == "annuler") {
                 document.getElementById('sendBtnC').style.display = "none";

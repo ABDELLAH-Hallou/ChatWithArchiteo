@@ -1,7 +1,18 @@
 
 function record() {
+    var btnName = "";
+    if (document.getElementById("sendBtnC").style.display == 'none' && document.getElementById("sendBtnA").style.display == 'none')
+                    btnName = "sendBtn";
+                else if (document.getElementById("sendBtnA").style.display == 'none')
+                btnName = "sendBtnC";
+                else
+                btnName = "sendBtnA";
+
+
+
+
     document.getElementById('audioRec').style.display = 'block';
-    document.getElementById('sendBtn').style.display = 'none';
+    document.getElementById(btnName).style.display = 'none';
     document.getElementById('sendBtnAudio').style.display = 'block';
     document.getElementById('chat-content').style.opacity = 0;
 
@@ -42,15 +53,15 @@ function record() {
                 // mediaRecorder.stop();
                 // console.log('stoped');
                 document.getElementById('audioRec').style.display = 'none';
-                if (document.getElementById("sendBtnC").style.display == 'none' && document.getElementById("sendBtnA").style.display == 'none')
-                    document.getElementById('sendBtn').style.display = 'block';
-                else if (document.getElementById("sendBtnA").style.display == 'none')
-                    document.getElementById('sendBtnC').style.display = 'block';
-                else
-                    document.getElementById('sendBtnA').style.display = 'block';
+                // if (document.getElementById("sendBtnC").style.display == 'none' && document.getElementById("sendBtnA").style.display == 'none')
+                    document.getElementById(btnName).style.display = 'block';
+                // else if (document.getElementById("sendBtnA").style.display == 'none')
+                //     document.getElementById('sendBtnC').style.display = 'block';
+                // else
+                //     document.getElementById('sendBtnA').style.display = 'block';
                 document.getElementById('sendBtnAudio').style.display = 'none';
                 document.getElementById('chat-content').style.opacity = 1;
-                console.log("pauseButton clicked rec.recording=", rec.recording);
+                // console.log("pauseButton clicked rec.recording=", rec.recording);
 
                 rec.stop();
                 stream.getAudioTracks()[0].stop();
@@ -92,7 +103,16 @@ function sendAudio(audio) {
         if (xhr.readyState == 4) {
             var res = xhr.responseText;
             res = res.substring(1, res.length - 2);
-            getResponse(res);
+            if(document.getElementById('sendBtn').style.display == 'block')
+                getResponse(res);
+                else if(document.getElementById('sendBtnA').style.display == 'block'){
+                    postDemande(candItt,res);
+                candItt++;
+                }else if(document.getElementById('sendBtnC').style.display == 'block'){
+                    postCandidature(candItt,res);
+                candItt++;
+                }
+                
         }
     };
     xhr.send(fd);

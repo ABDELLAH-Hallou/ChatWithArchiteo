@@ -53,11 +53,15 @@ function autre(service) {
 
 // function autre
 function filloutA(it) {
+    var clientmsg = document.getElementById("message").value;
+    postDemande(it, clientmsg);
+}
+function postDemande(it, clientmsg){
     console.log("arr", clientArr);
     if (it + 1 < clientArr.length) {
         var key = clientArr[it + 1];
         console.log("key: ", key);
-        var clientmsg = document.getElementById("message").value;
+        // var clientmsg = document.getElementById("message").value;
         var Autre = autre(clientService);
         if (it < 0 && clientmsg.toLowerCase() != "continuer") {
             fromUser(clientmsg);
@@ -130,7 +134,7 @@ function filloutA(it) {
     else {
         if (it + 1 == clientArr.length && clientmsg != "retour") {
             var key = clientArr[it];
-            var clientmsg = document.getElementById("message").value;
+            // var clientmsg = document.getElementById("message").value;
             var Autre = autre(clientService);
             if (clientmsg.toLowerCase() == "annuler") {
                 document.getElementById('sendBtnA').style.display = "none";
