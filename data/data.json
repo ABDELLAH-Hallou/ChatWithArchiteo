@@ -25,7 +25,7 @@
     },
     {
         "tag" : "Recruitment",
-        "patterns" : ["Portage salariale","je suis un recruteur","Service du recrutement","Service du Portage salariale","je souhaiterais beneficier de service du recrutement","Je veux embaucher des gens","Je veux des employés ","Je veux des salariés","embauchage", "embauche", "embrigadement", "engagement", "enrégimentement", "enrôlement"],
+        "patterns" : ["Portage salariale","je suis un recruteur","Service du recrutement","Service du Portage salariale","je souhaiterais beneficier de service du recrutement","Je veux embaucher des gens","Je veux des employés ","Je veux des salariés","embauchage", "embauche", "embrigadement", "engagement", "enrégimentement", "enrôlement","je souhaite recruter des gens"],
         "responses": ["recrutement"]
     },
     {
@@ -64,7 +64,7 @@
         "responses": ["de quel service vous souhaitez bénéficier? Notre entreprise propose des services comme acueillir des candidatures,donner des formations,répondre à des consultations,réaliser des projets informatiques    "]
     },
     {    "tag" : "name",
-         "patterns" : ["comment tu t'appeles","quel est ton nom","comment je peux t'appeler","ton nom "],
+         "patterns" : ["comment tu t'appelles","quel est ton nom","comment je peux t'appeler","ton nom "],
          "responses" : ["je m'appelle ChatWithArchiteo ","mon nom est ChatWithArchiteo","Je suis ChatWithArchiteo"]
     },
 

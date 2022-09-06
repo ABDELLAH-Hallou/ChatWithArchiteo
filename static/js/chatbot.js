@@ -13,6 +13,14 @@ window.onload = function () {
         }
     });
     showMsg();
+    var todayTime = document.getElementsByClassName("chat-day");
+    let today = new Date();
+    for (const iterator of todayTime) {
+        iterator.innerHTML += "Today " + today.getHours() + ":" + today.getMinutes().toLocaleString('en-US', {
+            minimumIntegerDigits: 2,
+            useGrouping: false
+        });
+    }
 
 }
 const showMsg = async () => {
