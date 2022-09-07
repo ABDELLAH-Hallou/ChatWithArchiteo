@@ -5,7 +5,7 @@ from prodFunc import *
 import joblib
 import json
 import tensorflow as tf
-import pickle
+# import pickle
 import os
 from tensorflow.keras.models import Sequential, model_from_json
 # Sequential groups a linear stack of layers into a tf.keras.Model
@@ -13,7 +13,7 @@ from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 from nltk.stem import WordNetLemmatizer
 
-from flask_restful import Resource, Api
+# from flask_restful import Resource, Api
 from flask import Flask, render_template, request, jsonify
 
 from flask_sqlalchemy import SQLAlchemy
@@ -24,7 +24,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:root@localhost/chatbotArchiteo"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-api = Api(app)
+# api = Api(app)
 app.config['JSON_AS_ASCII'] = False
 # SQLALCHEMY_ENGINE_OPTIONS = {
 #     'max_overflow':10000

@@ -3,7 +3,7 @@ import string
 import random
 import nltk
 import matplotlib.pyplot as plt
-import seaborn as sns
+# import seaborn as sns
 import joblib
 import numpy as np
 from nltk.stem import WordNetLemmatizer
