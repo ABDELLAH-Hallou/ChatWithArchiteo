@@ -124,7 +124,7 @@ function getResponse(clientmsg) {
                             //         + '<div class="media media-chat from-chat">' +
                             //         '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
                             //         '<div class="media-body">' +
-                            //         '<p>' + "les créneaux disponibles sont Lundi et Jeudi à 10:00, 15:00 et 17:00" + '</p>' +
+                            //         '<p>' + "les créneaux disponibles sont "+ allowedTime().jour + "à "+ allowedTime().hour + '</p>' +
                             //         '</div>' + '</div>'
                             //         + '<button class="rdvBtn" id="rdvBtn" onclick="rdvBtn();" role="button">Cliquer ici</button> ';
                             //     Gdiv.scroll(0, Gdiv.scrollHeight);
@@ -156,4 +156,18 @@ function fromUser(msg) {
     var Gdiv = document.getElementById("chat-content");
     div.innerHTML += '<div class="media media-chat media-chat-reverse">' + '<div class="media-body">' + '<p>' + msg + '</p>' + '</div>' + '</div>';
     Gdiv.scroll(0, Gdiv.scrollHeight);
+}
+
+function validation_email(type, email) {
+    personnel = ['gmail', 'hotmail', 'outlook', 'zoho', 'protonmail', 'aol', 'mail', 'gmx', 'icloud', 'yandex', 'aim', 'yahoo'];
+    var expressionReguliere = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+))|("[\w-\s]+")([\w-]+(?:\.[\w-]+)))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+    if (expressionReguliere.test(email)) {
+        after = email.split("@")[1];
+        domaine = after.split('.')[0];
+        if (personnel.includes(domaine) && type === "clt")
+            return "Veuillez Saisir une adresse émail professionnelle";
+        else return true;
+    }
+
+    else return "Veuillez Saisir une adresse émail valide";
 }

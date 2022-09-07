@@ -10,7 +10,7 @@ const getRdvs = function () {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == XMLHttpRequest.DONE) {
             if (xhr.status == 200) {
-                
+
             } else if (xhr = 400) {
                 console.log("There was an error status = 400");
             } else {
@@ -110,7 +110,7 @@ function postRdv(date) {
     var req = {
         'id_utilisateur': userId,
         'dateRdv': date,
-        'typeRdv': 'rendez vous'
+        'typeRdv': typeRdv
     };
 
     var dataToString = JSON.stringify(req);
@@ -130,4 +130,53 @@ function postRdv(date) {
     };
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.send(dataToString);
+}
+
+
+
+function allowedTime() {
+    var xmlhttp = new XMLHttpRequest();
+    var xhr = new XMLHttpRequest();
+    var days = [];
+    var hours = [];
+    xmlhttp.open("GET", "/get-JourRdvs", false);
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+            if (xmlhttp.status == 200) {
+                for (const iterator of JSON.parse(xmlhttp.responseText)['jours']) {
+                    days.push(iterator.jour);
+                }
+            } else if (xmlhttp = 400) {
+                console.log('There was an error status =400');
+            } else {
+                console.log('something else other than 200 was returned');
+            }
+        }
+    };
+    xmlhttp.send();
+    xhr.open("GET", "/get-horaires", false);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            if (xhr.status == 200) {
+                for (const iterator of JSON.parse(xhr.responseText)['horaires']) {
+                    hours.push(iterator.heure);
+                }
+            } else if (xhr = 400) {
+                console.log('There was an error status =400');
+            } else {
+                console.log('something else other than 200 was returned');
+            }
+        }
+    };
+    xhr.send();
+    var day = '';
+    var hour = '';
+    for (const iterator of days) {
+        day +=iterator +', ';
+    }
+    for (const iterator of hours) {
+        hour     +=iterator +', ';
+    }
+    return {"jour" : day, "hour" : hour};
+
 }

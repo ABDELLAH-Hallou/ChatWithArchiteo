@@ -60,6 +60,18 @@ function postCandidature(it, clientmsg){
                     } else {
                         fromUser(clientmsg);
                         candidatRes[candArr[it]] = clientmsg;
+                        console.log(candidatRes.email);
+                        console.log(candidatRes);
+                        if(candidatRes.email !== "" && candidatRes.email !== undefined){
+                            var msg = validation_email('cnd', candidatRes.email);
+                            console.log(msg);
+                            if(msg != true){
+                                fromChat(msg);
+                                document.getElementById("message").value = "";
+                                candItt--;
+                                return;
+                            }
+                        }
                         fromChat(question);
                     }
                 }
@@ -89,12 +101,12 @@ function postCandidature(it, clientmsg){
                 fromUser(clientmsg);
                 candidatRes[key] = clientmsg;
                 fromChat('Envoyez nous votre cv!');
-                candItt = -1;
+                candItt = -2;
                 document.getElementById('sendBtnC').style.display = "none";
                 document.getElementById('sendBtn').style.display = "block";
                 var dataToString = JSON.stringify(candidatRes);
                 var xmlhttp = new XMLHttpRequest();
-                xmlhttp.open("POST", "/post-candidature", true);
+                xmlhttp.open("POST", "/post-candidature", false);
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == XMLHttpRequest.DONE) {
                         if (xmlhttp.status == 200) {
@@ -103,7 +115,7 @@ function postCandidature(it, clientmsg){
                             candidatureId = res.id;
                             userId = res.userId;
                         } else if (xmlhttp = 400) {
-                            alert('There was an error 4.status =00');
+                            alert('There was an error status =400');
                         } else {
                             alert('something else other than 200 was returned');
                         }

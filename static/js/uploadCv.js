@@ -45,10 +45,11 @@ function previewFile() {
                     + '<div class="media media-chat from-chat">' +
                     '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
                     '<div class="media-body">' +
-                    '<p>' + "les créneaux disponibles sont Lundi et Jeudi à 10:00, 15:00 et 17:00" + '</p>' +
+                    '<p>' + "les créneaux disponibles sont "+ allowedTime().jour + "à "+ allowedTime().hour +'</p>' +
                     '</div>' + '</div>'
                     + '<button class="rdvBtn" id="rdvBtn" onclick="rdvBtn();" role="button">Cliquer ici</button> ';
                 Gdiv.scroll(0, Gdiv.scrollHeight);
+                typeRdv = 'entretien';
             }
         };
 

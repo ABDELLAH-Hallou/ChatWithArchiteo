@@ -58,6 +58,7 @@ function filloutA(it) {
 }
 function postDemande(it, clientmsg){
     console.log("arr", clientArr);
+    
     if (it + 1 < clientArr.length) {
         var key = clientArr[it + 1];
         console.log("key: ", key);
@@ -94,8 +95,20 @@ function postDemande(it, clientmsg){
                     }
                     else {
                         fromUser(clientmsg);
+                        
                         clientRes[clientArr[it]] = clientmsg;
-
+                        console.log(clientRes.email);
+                        console.log(clientRes);
+                        if(clientRes.email !== "" && clientRes.email !== undefined){
+                            var msg = validation_email('clt', clientRes.email);
+                            console.log(msg);
+                            if(msg != true){
+                                fromChat(msg);
+                                document.getElementById("message").value = "";
+                                candItt--;
+                                return;
+                            }
+                        }
                         if (["personne physique", "pp"].includes(clientRes['type'].toLowerCase())) {
                             Autre.questions['nom'] = "Quel est votre nom complet ?";
                             question = Autre.questions[key];
@@ -156,11 +169,12 @@ function postDemande(it, clientmsg){
                     + '<div class="media media-chat from-chat">' +
                     '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
                     '<div class="media-body">' +
-                    '<p>' + "les créneaux disponibles sont Lundi et Jeudi à 10:00, 15:00 et 17:00" + '</p>' +
+                    '<p>' + "les créneaux disponibles sont "+ allowedTime().jour + "à "+ allowedTime().hour +'</p>' +
                     '</div>' + '</div>'
                     + '<button class="rdvBtn" id="rdvBtn" onclick="rdvBtn();" role="button">Cliquer ici</button> ';
                 Gdiv.scroll(0, Gdiv.scrollHeight);
-                candItt = -1;
+                typeRdv = 'rendez vous';
+                candItt = -2;
                 document.getElementById('sendBtnA').style.display = "none";
                 document.getElementById('sendBtn').style.display = "block";
                 var dataToString = JSON.stringify(clientRes);
