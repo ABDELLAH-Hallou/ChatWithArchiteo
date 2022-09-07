@@ -216,6 +216,8 @@ def Pclass(text, vocab, labels, lm, model):
 
 def getRes(firstlist, fJson):
     tag = firstlist[0]
+    if tag == "what":
+        return "Désolé, je n'ai pas pu vous comprendre. Veuillez reformuler votre phrase s'il vous plaît."
     listOfIntents = fJson["intents"]
     for i in listOfIntents:
         if i["tag"] == tag:
