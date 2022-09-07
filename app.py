@@ -5,7 +5,7 @@ from prodFunc import *
 import joblib
 import json
 import tensorflow as tf
-# import pickle
+import pickle
 import os
 from tensorflow.keras.models import Sequential, model_from_json
 # Sequential groups a linear stack of layers into a tf.keras.Model
