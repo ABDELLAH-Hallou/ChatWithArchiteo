@@ -50,6 +50,7 @@ function previewFile() {
                     + '<button class="rdvBtn" id="rdvBtn" onclick="rdvBtn();" role="button">Cliquer ici</button> ';
                 Gdiv.scroll(0, Gdiv.scrollHeight);
                 typeRdv = 'entretien';
+                document.getElementById('addCv').style.display= "none";
             }
         };
 

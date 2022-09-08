@@ -101,6 +101,7 @@ function postCandidature(it, clientmsg){
                 fromUser(clientmsg);
                 candidatRes[key] = clientmsg;
                 fromChat('Envoyez nous votre cv!');
+                document.getElementById('addCv').style.display= "block";
                 candItt = -2;
                 document.getElementById('sendBtnC').style.display = "none";
                 document.getElementById('sendBtn').style.display = "block";
