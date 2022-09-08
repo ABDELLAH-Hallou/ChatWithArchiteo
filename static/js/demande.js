@@ -24,7 +24,7 @@ function autre(service) {
 
     } else
         if (["consultation", "formation"].includes(service.toLowerCase())) {
-            questions["domain"] = "Quel est le domain dont vous souhaitez faire la " + service.toLowerCase() + "?";
+            questions["domain"] = "Quel est le domaine dont vous souhaitez faire la " + service.toLowerCase() + "?";
             clientArr = ['type', 'nom', 'nbr_pers', 'besoins', 'num_tel', 'email', 'adresse', 'domain'];
             // if (!clientArr.includes('domain')) {
             //     clientArr.push('domain');
@@ -54,11 +54,14 @@ function autre(service) {
 // function autre
 function filloutA(it) {
     var clientmsg = document.getElementById("message").value;
-    postDemande(it, clientmsg);
+    if (clientmsg != "") {
+        postDemande(it, clientmsg);
+        candItt++;
+    }
 }
-function postDemande(it, clientmsg){
+function postDemande(it, clientmsg) {
     console.log("arr", clientArr);
-    
+
     if (it + 1 < clientArr.length) {
         var key = clientArr[it + 1];
         console.log("key: ", key);
@@ -95,14 +98,14 @@ function postDemande(it, clientmsg){
                     }
                     else {
                         fromUser(clientmsg);
-                        
+
                         clientRes[clientArr[it]] = clientmsg;
                         console.log(clientRes.email);
                         console.log(clientRes);
-                        if(clientRes.email !== "" && clientRes.email !== undefined){
+                        if (clientRes.email !== "" && clientRes.email !== undefined) {
                             var msg = validation_email('clt', clientRes.email);
                             console.log(msg);
-                            if(msg != true){
+                            if (msg != true) {
                                 fromChat(msg);
                                 document.getElementById("message").value = "";
                                 candItt--;
@@ -169,7 +172,7 @@ function postDemande(it, clientmsg){
                     + '<div class="media media-chat from-chat">' +
                     '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
                     '<div class="media-body">' +
-                    '<p>' + "les créneaux disponibles sont "+ allowedTime().jour + "à "+ allowedTime().hour +'</p>' +
+                    '<p>' + "les créneaux disponibles sont " + allowedTime().jour + "à " + allowedTime().hour + '</p>' +
                     '</div>' + '</div>'
                     + '<button class="rdvBtn" id="rdvBtn" onclick="rdvBtn();" role="button">Cliquer ici</button> ';
                 Gdiv.scroll(0, Gdiv.scrollHeight);

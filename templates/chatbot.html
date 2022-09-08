@@ -19,7 +19,7 @@
   <div class="message-popup">Bonjour comment puis-je vous aidez? </div>
   <div class="chat-icon-container">
     <img onclick="showChatCard('open')" class="chat-icon" src="../static/images/chatbot.png" alt="">
-    <img onclick="showChatCard('close')" class="chat-icon-close" src="../static/images/closeChat.png" alt="">
+    <img onclick="showChatCard('close')" id="chat-icon-close" class="chat-icon-close" src="../static/images/closeChat.png" alt="">
   </div>
 
 
@@ -101,9 +101,9 @@
         <i class="fa-solid fa-microphone"></i></a>
       <a class="publisher-btn" id="sendBtn" onclick="send()" name="submitmsg" href="javascript:void(0)"
         data-abc="true"><i class="fa fa-paper-plane"></i></a>
-      <a class="publisher-btn" id="sendBtnC" style="display: none;" onclick="filloutC(candItt);candItt++;"
+      <a class="publisher-btn" id="sendBtnC" style="display: none;" onclick="filloutC(candItt);"
         name="submitmsg" href="javascript:void(0)" data-abc="true"><i class="fa fa-paper-plane"></i></a>
-      <a class="publisher-btn" id="sendBtnA" style="display: none;" onclick="filloutA(candItt);candItt++;"
+      <a class="publisher-btn" id="sendBtnA" style="display: none;" onclick="filloutA(candItt);"
         name="submitmsg" href="javascript:void(0)" data-abc="true"><i class="fa fa-paper-plane"></i></a>
       <a class="publisher-btn" id="sendBtnAudio" style="display: none;" name="submitmsg" href="javascript:void(0)"
         data-abc="true"><i class="fa fa-paper-plane"></i></a>

@@ -21,7 +21,10 @@ function candidature() {
 
 function filloutC(it) {
     var clientmsg = document.getElementById("message").value;
-    postCandidature(it, clientmsg);
+    if (clientmsg != "") {
+        postCandidature(it, clientmsg);
+        candItt++;
+    }
 }
 function postCandidature(it, clientmsg){
     if (it + 1 < candArr.length) {
