@@ -85,7 +85,7 @@ function getResponse(clientmsg) {
     if (clientmsg != "") {
         document.getElementById("message").value = "";
         fromUser(clientmsg);
-        let value = clientmsg;
+        let value = clientmsg.toLowerCase();
         var data = { "pattern": value };
         var dataToString = JSON.stringify(data);
         var xmlhttp = new XMLHttpRequest();

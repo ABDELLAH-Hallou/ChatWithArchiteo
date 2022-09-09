@@ -26,10 +26,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 # api = Api(app)
 app.config['JSON_AS_ASCII'] = False
-# SQLALCHEMY_ENGINE_OPTIONS = {
-#     'max_overflow':10000
-# }
 
+app.config['SQLALCHEMY_POOL_TIMEOUT'] = 3600
+app.config['SQLALCHEMY_MAX_OVERFLOW'] = 50
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -344,8 +343,6 @@ def postRdv():
         'typeRdv': Rdv.typeRdv.value
     }
     return json.dumps(res)
-# app.config['SQLALCHEMY_POOL_SIZE'] = 0
-# app.config['SQLALCHEMY_MAX_OVERFLOW'] = 0
 
 
 @app.route('/get-rdvs', methods=['GET'])
@@ -372,17 +369,11 @@ def postVcl():
     if request.method == 'POST':
         if request.files['vcl']:
             AUDIO_FILE = request.files['vcl']
-            
-            # source.save(os.path.join('./uploads/audio.wav'))
-            # AUDIO_FILE = os.path.join('./uploads/audio.wav')
             print(AUDIO_FILE)
-            # with sr.Microphone() as source2:
             r = sr.Recognizer()
             with sr.AudioFile(AUDIO_FILE) as source:
                 r.adjust_for_ambient_noise(source, duration=0.2)
                 audio = r.record(source)
-            
-            # audio = r.listen(source)
             MyText = r.recognize_google(audio, language='fr-FR')
             MyText = MyText.lower()
             print(MyText)
