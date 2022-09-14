@@ -113,24 +113,24 @@ function getResponse(clientmsg) {
 
                         }
                         else {
-                            if ("de quel service vous souhaitez bénéficier? Notre entreprise propose des services comme acueillir des candidatures,donner des formations,répondre à des consultations,réaliser des projets informatiques    " == res) {
-                                var div = document.getElementById("chat");
-                                var Gdiv = document.getElementById("chat-content");
-                                div.innerHTML += '<div class="media media-chat from-chat">' +
-                                    '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
-                                    '<div class="media-body">' +
-                                    '<p>' + "Cliquer sur le button pour choisir un créneau qui vous convient" + '</p>' +
-                                    '</div>' + '</div>'
-                                    + '<div class="media media-chat from-chat">' +
-                                    '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
-                                    '<div class="media-body">' +
-                                    '<p>' + "les créneaux disponibles sont "+ allowedTime().jour + "à "+ allowedTime().hour + '</p>' +
-                                    '</div>' + '</div>'
-                                    + '<button class="rdvBtn" id="rdvBtn" onclick="rdvBtn();" role="button">Cliquer ici</button> ';
-                                Gdiv.scroll(0, Gdiv.scrollHeight);
-                            } else {
+                            // if ("de quel service vous souhaitez bénéficier? Notre entreprise propose des services comme acueillir des candidatures,donner des formations,répondre à des consultations,réaliser des projets informatiques    " == res) {
+                            //     var div = document.getElementById("chat");
+                            //     var Gdiv = document.getElementById("chat-content");
+                            //     div.innerHTML += '<div class="media media-chat from-chat">' +
+                            //         '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                            //         '<div class="media-body">' +
+                            //         '<p>' + "Cliquer sur le button pour choisir un créneau qui vous convient" + '</p>' +
+                            //         '</div>' + '</div>'
+                            //         + '<div class="media media-chat from-chat">' +
+                            //         '<img class="avatar" src="../static/images/chatbot.png" alt="...">' +
+                            //         '<div class="media-body">' +
+                            //         '<p>' + "les créneaux disponibles sont "+ allowedTime().jour + "à "+ allowedTime().hour + '</p>' +
+                            //         '</div>' + '</div>'
+                            //         + '<button class="rdvBtn" id="rdvBtn" onclick="rdvBtn();" role="button">Cliquer ici</button> ';
+                            //     Gdiv.scroll(0, Gdiv.scrollHeight);
+                            // } else {
                             fromChat(res);
-                            }
+                            // }
                         }
                     }
                 } else if (xmlhttp = 400) {
