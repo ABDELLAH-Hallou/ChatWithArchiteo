@@ -12,16 +12,20 @@ from tensorflow.keras.models import Sequential, model_from_json
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 from nltk.stem import WordNetLemmatizer
-
+import cloudinary
+import cloudinary.uploader
 # from flask_restful import Resource, Api
 from flask import Flask, render_template, request, jsonify
 
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-
+from flask_cors import CORS, cross_origin
 app = Flask(__name__)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:root@localhost/chatbotArchiteo"
+CORS(app)
+cloudinary.config(cloud_name="ddnvgwxtz", api_key="754678359746672",
+                  api_secret="oy9eOzy3tDTqPHZwl3LBYGWgV1Q")
+# app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:root@localhost/chatbotArchiteo"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://abdellahhallou@architeodbchatbot:Chatbot2@architeodbchatbot.mysql.database.azure.com/chatbotArchiteo"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 # api = Api(app)
@@ -29,6 +33,7 @@ app.config['JSON_AS_ASCII'] = False
 
 app.config['SQLALCHEMY_POOL_TIMEOUT'] = 3600
 app.config['SQLALCHEMY_MAX_OVERFLOW'] = 50
+
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -61,18 +66,26 @@ def chat():
 
 
 @app.route('/cv', methods=['POST', 'GET'])
+@cross_origin()
 def postCv():
     if request.method == 'POST':
         if request.files['file']:
             file = request.files['file']
             id = request.form['id']
-            file.save(os.path.join('./uploads', file.filename))
-            candidature = models.Candidature.query.filter_by(id=id).first()
-            candidature.cv = file.filename
-            db.session.merge(candidature)
-            db.session.commit()
-            res = 'votre condidature est enregistré!'
-            return jsonify(res)
+            # app.logger.info('%s file', file)
+            if file:
+                upload_result = cloudinary.uploader.upload(file,
+                                                           resource_type="raw",
+                                                           public_id="home/uploads/"+file.filename)
+                print(upload_result['url'])
+                # app.logger.info(upload_result)
+                # file.save(os.path.join('./uploads', file.filename))
+                candidature = models.Candidature.query.filter_by(id=id).first()
+                candidature.cv = upload_result['url']
+                db.session.merge(candidature)
+                db.session.commit()
+                res = 'votre condidature est enregistré!'
+                return jsonify(res)
 
 
 @app.route('/get-users', methods=['GET'])
@@ -359,9 +372,6 @@ def getRdvs():
             }
         )
     return json.dumps(res)
-
-
-
 
 
 @app.route('/vocal', methods=['POST'])
