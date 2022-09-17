@@ -1,5 +1,5 @@
 # Chat with architeo
-## _The smartes chatbot_
+## _The smartest chatbot_
 
 
 
