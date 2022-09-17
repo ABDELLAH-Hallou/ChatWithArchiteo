@@ -6,7 +6,7 @@ import joblib
 import json
 # import tensorflow as tf
 # import pickle
-# import os
+import os
 from keras.models import Sequential, model_from_json
 # Sequential groups a linear stack of layers into a tf.keras.Model
 # from tensorflow.keras import Sequential
@@ -21,8 +21,7 @@ from datetime import datetime
 from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 CORS(app)
-cloudinary.config(cloud_name="ddnvgwxtz", api_key="754678359746672",
-                  api_secret="oy9eOzy3tDTqPHZwl3LBYGWgV1Q")
+
 # app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:root@localhost/chatbotArchiteo"
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://abdellahhallou@architeodbchatbot:Chatbot2@architeodbchatbot.mysql.database.azure.com/chatbotArchiteo"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -64,7 +63,7 @@ def chat():
 
 
 @app.route('/cv', methods=['POST', 'GET'])
-@cross_origin()
+# @cross_origin()
 def postCv():
     if request.method == 'POST':
         if request.files['file']:
@@ -72,14 +71,15 @@ def postCv():
             id = request.form['id']
             # app.logger.info('%s file', file)
             if file:
-                upload_result = cloudinary.uploader.upload(file,
-                                                           resource_type="raw",
-                                                           public_id="home/uploads/"+file.filename)
-                print(upload_result['url'])
+                # upload_result = cloudinary.uploader.upload(file,
+                #                                            resource_type="raw",
+                #                                            public_id="home/uploads/"+file.filename)
+                # print(upload_result['url'])
                 # app.logger.info(upload_result)
-                # file.save(os.path.join('./uploads', file.filename))
+                file.save(os.path.join('./uploads', file.filename))
                 candidature = models.Candidature.query.filter_by(id=id).first()
-                candidature.cv = upload_result['url']
+                # candidature.cv = upload_result['url']
+                candidature.cv = file.filename
                 db.session.merge(candidature)
                 db.session.commit()
                 res = 'votre condidature est enregistré!'
