@@ -1,0 +1,57 @@
+[
+    {
+        "tag": [
+            "greeting"
+        ],
+        "patterns": [
+            "hello"
+        ],
+        "responses": [
+            "Salutations!"
+        ]
+    },
+    {
+        "tag": [
+            "greeting"
+        ],
+        "patterns": [
+            "hello"
+        ],
+        "responses": [
+            "Salutations!"
+        ]
+    },
+    {
+        "tag": [
+            "greeting"
+        ],
+        "patterns": [
+            "hello"
+        ],
+        "responses": [
+            "Salutations!"
+        ]
+    },
+    {
+        "tag": [
+            "greeting"
+        ],
+        "patterns": [
+            "hello"
+        ],
+        "responses": [
+            "Salutations!"
+        ]
+    },
+    {
+        "tag": [
+            "form"
+        ],
+        "patterns": [
+            "cv"
+        ],
+        "responses": [
+            "je vais bien merci , comment je peux vous aider "
+        ]
+    }
+]

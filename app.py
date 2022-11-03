@@ -16,20 +16,11 @@ import cloudinary
 import cloudinary.uploader
 from flask import Flask, render_template, request, jsonify
 
-from flask_sqlalchemy import SQLAlchemy
+
 from datetime import datetime
 from flask_cors import CORS, cross_origin
-app = Flask(__name__)
+from settings import app, db
 CORS(app)
-
-# app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:root@localhost/chatbotArchiteo"
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://abdellahhallou@architeodbchatbot:Chatbot2@architeodbchatbot.mysql.database.azure.com/chatbotArchiteo"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-app.config['JSON_AS_ASCII'] = False
-
-app.config['SQLALCHEMY_POOL_TIMEOUT'] = 3600
-app.config['SQLALCHEMY_MAX_OVERFLOW'] = 50
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -53,13 +44,33 @@ def chat():
         model.load_weights("./model/model.h5")
         with open('./data/data.json', encoding="utf-8") as json_file:
             data = json.load(json_file)
-
         lm = WordNetLemmatizer()
         req = request.get_json()  # get request from client side
         pattern = req["pattern"]
         intents = Pclass(pattern, words, classes, lm, model)
         result = getRes(intents, data)
-        return jsonify(result)
+        # save data
+        conversation = {
+            "tag": intents,
+            "patterns": [pattern],
+            "responses": [result]
+        }
+
+
+        # 1. Read file contents
+        with open('./data/conversation.json', "r") as file:
+            fileData = json.load(file)
+        # 2. Update json object
+        fileData.append(conversation)
+        # 3. Write json file
+        with open('./data/conversation.json', "w") as file:
+            json.dump(fileData, file)
+    # with open('./data/conversation.json', 'a', encoding='utf-8') as f:
+    #     if(os.stat('./data/conversation.json').st_size == 0):
+    #         f.write(",")
+    #     json.dump(conversation, f, ensure_ascii=True, indent=4)
+    # end saving data
+    return jsonify(result)
 
 
 @app.route('/cv', methods=['POST', 'GET'])
@@ -168,7 +179,7 @@ def postCandidature():
     nombre_anne_exp = req["ann_exp"]
     domaine_exp = req["expertise"]
     ex_eployeur = req["employeur"]
-    post_desire = req["type"]
+    post_desire = req["type_cand"]
     existingUsers = models.Utilisateur.query.all()
     for existingUser in existingUsers:
         if email == existingUser.email:
@@ -388,6 +399,72 @@ def postVcl():
             res = MyText
             return jsonify(res)
 
+
+@app.route('/postQuestion', methods=['POST'])
+def postQuestion():
+    Res = []
+    req = request.get_json()
+    questionContent = req["question"]
+    tag = req["tag"]
+    serviceNames = req["service"]
+    for serviceName in serviceNames:
+        SerExists = False
+        QueExists = False
+        existingServices = models.Service.query.all()
+        existingQuestions = models.Question.query.all()
+        for existingService in existingServices:
+            if serviceName == existingService.serviceName:
+                SerExists = True
+        for existingQuestion in existingQuestions:
+            print(questionContent, existingQuestion.question)
+            if questionContent == existingQuestion.question:
+                QueExists = True
+        if QueExists and SerExists:
+            question = models.Question.query.filter_by(
+                question=questionContent).first()
+            service = models.Service.query.filter_by(
+                serviceName=serviceName).first()
+        elif (not SerExists) and (not QueExists):
+            service = models.Service(serviceName=serviceName)
+            question = models.Question(question=questionContent, tag=tag)
+        elif (not SerExists):
+            service = models.Service(serviceName=serviceName)
+            question = models.Question.query.filter_by(
+                question=questionContent).first()
+        elif (not QueExists):
+            question = models.Question(question=questionContent, tag=tag)
+            service = models.Service.query.filter_by(
+                serviceName=serviceName).first()
+        service.questionPerService.append(question)
+        db.session.add(service)
+        db.session.commit()
+        Res.append({"id": question.id,
+                    "serviceId": service.id,
+                    "serviceName": service.serviceName,
+                    "question": questionContent,
+                    "tag": tag
+                    })
+    return json.dumps(Res)
+
+
+@app.route('/service-questions/<serviceName>', methods=['GET'])
+def serviceQuestions(serviceName):
+    res = {'questions': []}
+    service = models.Service.query.filter_by(serviceName=serviceName).first()
+    questions = service.questionPerService
+    for question in questions:
+        print(question.ordre)
+        res['questions'].append(
+            {
+                'ordre': question.ordre,
+                'tag': question.tag,
+                'content': question.question
+
+            }
+
+        )
+
+    return json.dumps(res, ensure_ascii=False)
 #
 
 

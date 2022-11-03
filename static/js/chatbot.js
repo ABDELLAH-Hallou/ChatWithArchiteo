@@ -98,16 +98,20 @@ function getResponse(clientmsg) {
                     res = res.substring(1, res.length - 2);
                     console.log(res);
                     if (res == "candidature") {
-                        var Candidature = candidature();
-                        fromChat(Candidature.message);
+                        var questions = getQuestionsByService(res);
+                        candidatureObj = candidature(questions);
+                        fromChat(candidatureObj.message);
                         document.getElementById('sendBtn').style.display = "none";
                         document.getElementById('sendBtnC').style.display = "block";
                     } else {
 
                         if (res == "consultation" || res == "recrutement" || res == "délocalisation" || res == "formation" || res == "Startupping") {
-                            var Autre = autre(res);
+
+
+                            var questions = getQuestionsByService(res);
+                            autre = autre(res, questions);
                             clientService = res;
-                            fromChat(Autre.message);
+                            fromChat(autre.message);
                             document.getElementById('sendBtn').style.display = "none";
                             document.getElementById('sendBtnA').style.display = "block";
 
@@ -170,4 +174,32 @@ function validation_email(type, email) {
     }
 
     else return "Veuillez Saisir une adresse émail valide";
+}
+
+
+function getQuestionsByService(serviceName) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/service-questions/" + serviceName, false);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            if (xhr.status == 200) {
+
+            } else if (xhr = 400) {
+                console.log("There was an error status = 400");
+            } else {
+                console.log('something else other than 200 was returned');
+            }
+            if (xhr.readyState == 4) {
+                questions = JSON.parse(xhr.responseText);
+            }
+        }
+    };
+    xhr.send();
+    res = {};
+    questions.questions.sort((a,b) => a.ordre - b.ordre);
+    console.log(questions);
+    for (const question of questions.questions) {
+        res[question.tag] = question.content;
+    }
+    return res;
 }

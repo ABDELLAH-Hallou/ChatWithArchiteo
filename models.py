@@ -1,4 +1,4 @@
-from app import db
+from settings import db
 from datetime import datetime
 from sqlalchemy_utils import EmailType, ChoiceType
 
@@ -7,7 +7,7 @@ from sqlalchemy_utils import EmailType, ChoiceType
 # whrite this : 
     # python 
         # >>> from models import db
-        # >>> from models import Utilisateur, Candidature, Demande, RendezVous, Horaire, JourRdv
+        # >>> from models import Utilisateur, Candidature, Demande, RendezVous, Horaire, JourRdv, Question, Service
         # >>> db.create_all()
 
 
@@ -96,3 +96,22 @@ class JourRdv(db.Model):
     __tablename__ = 'jourRdv'
     id = db.Column(db.Integer, primary_key=True)
     jour =db.Column(db.String(100), nullable=False)
+questionPerService = db.Table('questionPerService',
+    db.Column('id_service', db.Integer, db.ForeignKey('service.id'), primary_key=True),
+    db.Column('id_question', db.Integer, db.ForeignKey('question.id'), primary_key=True)
+    
+)
+class Question(db.Model):
+    __tablename__ = 'question'
+    id = db.Column(db.Integer, primary_key=True)
+    question = db.Column(db.Text, nullable=False)
+    tag = db.Column(db.String(150), nullable=False)
+    ordre = db.Column(db.Integer, nullable=True)
+
+class Service(db.Model):
+    __tablename__ = 'service'
+    id = db.Column(db.Integer, primary_key=True)
+    serviceName = db.Column(db.Text, nullable=False)
+    questionPerService = db.relationship('Question', secondary=questionPerService, backref='service')
+
+

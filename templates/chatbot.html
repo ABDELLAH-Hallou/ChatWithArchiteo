@@ -1,12 +1,13 @@
 <!Doctype html>
-<html>
+<html lang="fr">
 
 <head>
 
   <link rel="stylesheet" href="../static/css/chatbot.css">
   <link rel="stylesheet" href="../static/css/audioRecord.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js">
+  <title>Chat with Architeo</title>
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"> -->
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"> -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.0/css/all.css">
 </head>
@@ -115,6 +116,8 @@
 <script>
   var candArr = ['nom', 'ann_exp', 'employeur', 'expertise', 'type', 'email', 'num_tel', 'adresse'];
   var clientArr = ['type', 'nom', 'nbr_pers', 'besoins', 'num_tel', 'email', 'adresse'];
+  var autre = {};
+  var candidatureObj = {};
   var candItt = -1;
   var candidatRes = {};
   var clientRes = {};

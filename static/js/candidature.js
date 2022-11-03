@@ -1,20 +1,24 @@
-function candidature() {
+function candidature(questions) {
     stops = ['retour', 'annuler'];
     error = {
         'notContinue': 'Veuillez saisir Continuer pour commencer ou Annuler pour Annuler la candidature',
         'notCorrect': "S'il vous plaît, essaie d'écrire la reponse correctement!"
     };
     message = " Nous sommes ravi d'accueillir des talents comme vous dans notre entreprise .\nJe vais vous poser des questions afin d'enregister votre candidature .\nPour continuer Taper Continuer .\nPour annuler la canidature répondre par Annuler (maintenant ou dans n'importe quelle question ) .\nPour modifier la réponse de la question précédente écrivez Retour .";
-    questions = {
-        'nom': 'Quel est votre nom complet ?',
-        'ann_exp': "combien avez vous d'années d'expériences ?",
-        'employeur': "Qu'il est votre employeur actuel s'il existe ?",
-        'expertise': "Qu'il est votre domaine d'expertise ?",
-        'type': "Est-ce que vous visez un poste précis(Oui/Non), si Oui veuillez le mentionner",
-        'email': "Quel est votre email ?",
-        'num_tel': "Qu'il est votre numéro de téléphone?",
-        'adresse': "Quel est votre adresse ?"
-    };
+    // questions = {
+    //     'nom': 'Quel est votre nom complet ?',
+    //     'ann_exp': "combien avez vous d'années d'expériences ?",
+    //     'employeur': "Qu'il est votre employeur actuel s'il existe ?",
+    //     'expertise': "Qu'il est votre domaine d'expertise ?",
+    //     'type': "Est-ce que vous visez un poste précis(Oui/Non), si Oui veuillez le mentionner",
+    //     'email': "Quel est votre email ?",
+    //     'num_tel': "Qu'il est votre numéro de téléphone?",
+    //     'adresse': "Quel est votre adresse ?"
+    // };
+    candArr = []
+    for (const key in questions) {
+        candArr.push(key);
+    }
     return { "questions": questions, "message": message, "error": error, "stops": stops };
 }
 
@@ -29,9 +33,7 @@ function filloutC(it) {
 function postCandidature(it, clientmsg){
     if (it + 1 < candArr.length) {
         var key = candArr[it + 1];
-
-        // var clientmsg = document.getElementById("message").value;
-        var Candidature = candidature();
+        var Candidature = JSON.parse(JSON.stringify(candidatureObj));
         if (it < 0 && clientmsg.toLowerCase() != "continuer") {
             fromUser(clientmsg);
             if (clientmsg.toLowerCase() == "annuler") {
@@ -93,7 +95,7 @@ function postCandidature(it, clientmsg){
         if (it + 1 == candArr.length && clientmsg != "retour") {
             var key = candArr[it];
             // var clientmsg = document.getElementById("message").value;
-            var Candidature = candidature();
+            var Candidature = JSON.parse(JSON.stringify(candidatureObj));
             if (clientmsg.toLowerCase() == "annuler") {
                 document.getElementById('sendBtnC').style.display = "none";
                 document.getElementById('sendBtn').style.display = "block";

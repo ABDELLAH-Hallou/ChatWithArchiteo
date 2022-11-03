@@ -1,4 +1,4 @@
-function autre(service) {
+function autre(service, questions) {
     clientRes["service"] = service;
     stops = ['retour', 'annuler'];
     error = {
@@ -6,53 +6,43 @@ function autre(service) {
         'notCorrect': "S'il vous plaît, essaie d'écrire la reponse correctement!"
     };
     message = "Vous êtes la pour " + service + ". On va vous poser des questions. Pour continuer Taper Continuer . Pour annuler votre demande, répondre par Annuler (maintenant ou dans n'importe quelle question ) .  Pour modifier la réponse de la question précédente écrivez Retour .";
-    questions = {
-        "type": "Est-ce que vous êtes société ou personne physique(pp) ?",
-        "nom": "",
-        "nbr_pers": "Combien de personnes bénéficiaires ?",
-        "besoins": "Veuillez spécifier vos besoins",
-        'num_tel': "Quel est votre numéro de téléphone ?",
-        'email': "Quel est votre email professionnel ? ",
-        'adresse': "Quel est votre adresse ?"
-    };
-    if (service.toLowerCase() == "partenariat") {
-        questions["type_part"] = "Quel est le type de votre partenariat ?";
-        clientArr = ['type', 'nom', 'nbr_pers', 'besoins', 'num_tel', 'email', 'adresse', 'type_part'];
-        // if (!clientArr.includes('type_part')) {
-        //     clientArr.push('type_part');
-        // }
+    // questions = {
+    //     "type": "Est-ce que vous êtes société ou personne physique(pp) ?",
+    //     "nom": "",
+    //     "nbr_pers": "Combien de personnes bénéficiaires ?",
+    //     "besoins": "Veuillez spécifier vos besoins",
+    //     'num_tel': "Quel est votre numéro de téléphone ?",
+    //     'email': "Quel est votre email professionnel ? ",
+    //     'adresse': "Quel est votre adresse ?"
+    // };
+    // if (service.toLowerCase() == "partenariat") {
+    //     questions["type_part"] = "Quel est le type de votre partenariat ?";
+    //     clientArr = ['type', 'nom', 'nbr_pers', 'besoins', 'num_tel', 'email', 'adresse', 'type_part'];
 
-    } else
-        if (["consultation", "formation"].includes(service.toLowerCase())) {
-            questions["domain"] = "Quel est le domaine dont vous souhaitez faire la " + service.toLowerCase() + "?";
-            clientArr = ['type', 'nom', 'nbr_pers', 'besoins', 'num_tel', 'email', 'adresse', 'domain'];
-            // if (!clientArr.includes('domain')) {
-            //     clientArr.push('domain');
-            // }
-        } else
-            if (service.toLowerCase() == "recrutement") {
-                clientArr = ['type', 'nom', 'besoins', 'num_tel', 'email', 'adresse', 'nbr_recrut', 'commentaires'];
-                delete questions.nbr_pers;
-                // if(clientArr.includes('domain')){
-                //     clientArr.splice(clientArr.indexOf("domain"), 1);
-                // }
-                // if (clientArr.includes('nbr_pers')) {
-                //     clientArr.splice(clientArr.indexOf("nbr_pers"), 1);
-                // }
-                questions["nbr_recrut"] = "Quel est le nombre de personnes à recruter ?";
-                questions["commentaires"] = "Ajoutez des commentaires si vous souhaitez";
-                // if (!clientArr.includes('nbr_recrut') && !clientArr.includes('commentaires')) {
-                //     clientArr.push('nbr_recrut');
-                //     clientArr.push('commentaires');
-                // }
-            } else
-                clientArr = ['type', 'nom', 'nbr_pers', 'besoins', 'num_tel', 'email', 'adresse'];
+    // } else
+    //     if (["consultation", "formation"].includes(service.toLowerCase())) {
+    //         questions["domain"] = "Quel est le domaine dont vous souhaitez faire la " + service.toLowerCase() + "?";
+    //         clientArr = ['type', 'nom', 'nbr_pers', 'besoins', 'num_tel', 'email', 'adresse', 'domain'];
+    //     } else
+    //         if (service.toLowerCase() == "recrutement") {
+    //             clientArr = ['type', 'nom', 'besoins', 'num_tel', 'email', 'adresse', 'nbr_recrut', 'commentaires'];
+    //             delete questions.nbr_pers;
+    //             questions["nbr_recrut"] = "Quel est le nombre de personnes à recruter ?";
+    //             questions["commentaires"] = "Ajoutez des commentaires si vous souhaitez";
+    //         } else
+    //             clientArr = ['type', 'nom', 'nbr_pers', 'besoins', 'num_tel', 'email', 'adresse'];
+    clientArr = []
+    for (const key in questions) {
+        clientArr.push(key);
+    }
+    console.log(clientArr);
     return { "questions": questions, "message": message, "error": error, "stops": stops };
 }
 
 
 // function autre
 function filloutA(it) {
+    console.log(clientRes);
     var clientmsg = document.getElementById("message").value;
     if (clientmsg != "") {
         postDemande(it, clientmsg);
@@ -65,8 +55,9 @@ function postDemande(it, clientmsg) {
     if (it + 1 < clientArr.length) {
         var key = clientArr[it + 1];
         console.log("key: ", key);
-        // var clientmsg = document.getElementById("message").value;
-        var Autre = autre(clientService);
+        console.log("it: ", it);
+        console.log(autre);
+        var Autre = JSON.parse(JSON.stringify(autre));
         if (it < 0 && clientmsg.toLowerCase() != "continuer") {
             fromUser(clientmsg);
             if (clientmsg.toLowerCase() == "annuler") {
@@ -83,8 +74,10 @@ function postDemande(it, clientmsg) {
         } else {
             if (clientmsg.toLowerCase() != "retour") {
                 var question = Autre.questions[key];
+                console.log("question : ", question);
                 clientRes[key] = "";
                 if (clientRes[clientArr[it]] === undefined) {
+                    console.log("undif")
                     fromUser(clientmsg);
                     fromChat(question);
                 }
@@ -100,8 +93,6 @@ function postDemande(it, clientmsg) {
                         fromUser(clientmsg);
 
                         clientRes[clientArr[it]] = clientmsg;
-                        console.log(clientRes.email);
-                        console.log(clientRes);
                         if (clientRes.email !== "" && clientRes.email !== undefined) {
                             var msg = validation_email('clt', clientRes.email);
                             console.log(msg);
@@ -113,19 +104,34 @@ function postDemande(it, clientmsg) {
                             }
                         }
                         if (["personne physique", "pp"].includes(clientRes['type'].toLowerCase())) {
-                            Autre.questions['nom'] = "Quel est votre nom complet ?";
+                            // Autre.questions['nom'] = "Quel est votre nom complet ?";
+                            // delete Autre.questions["raisonSocial"];
+                            // delete Autre.questions["nb_emp"];
+                            console.log(autre.questions["nom"]);
+                            Autre.questions["nom"] = autre.questions["nom"];
+                            if (clientArr.includes("raisonSocial")) {
+                                clientArr.splice(clientArr.indexOf("raisonSocial"), 1);
+                                clientArr.splice(clientArr.indexOf("nb_emp"), 1);
+                            }
                             question = Autre.questions[key];
+                            console.log(question);
                             fromChat(question);
                         }
                         if (["société", "societe"].includes(clientRes['type'].toLowerCase())) {
-                            Autre.questions['nom'] = "Qelle est votre Raison Social ?";
-                            Autre.questions["nbr_pers"] = "Combien d'employés travaillent dans votre société  ?";
-                            question = Autre.questions[key];
+                            // Autre.questions['nom'] = "Qelle est votre Raison Social ?";
+                            // Autre.questions["nbr_pers"] = "Combien d'employés travaillent dans votre société  ?";
+                            // question = Autre.questions[key];
+                            Autre.questions["nom"] = autre.questions["raisonSocial"];
+                            if (clientArr.includes("raisonSocial")) {                                
+                                clientArr.splice(clientArr.indexOf("raisonSocial"), 1);
+                            }
+                            question = Autre.questions[key]
+                            console.log(question);
                             fromChat(question);
                         }
                         if (!["société", "societe"].includes(clientRes['type'].toLowerCase()) && !["personne physique", "pp"].includes(clientRes['type'].toLowerCase())) {
-                            Autre.questions['nom'] = "Qelle est votre Raison Social ?";
-                            Autre.questions["nbr_pers"] = "Combien d'employés travaillent dans votre société  ?";
+                            // Autre.questions['nom'] = "Qelle est votre Raison Social ?";
+                            // Autre.questions["nbr_pers"] = "Combien d'employés travaillent dans votre société  ?";
                             candItt--;
                             fromChat(Autre.questions['type']);
                         }
@@ -137,7 +143,9 @@ function postDemande(it, clientmsg) {
 
 
             } else {
-                clientRes = {};
+                clientRes = {
+                    service:clientRes.service
+                };
                 candItt = -1;
                 var key = clientArr[candItt + 1];
                 var question = Autre.questions[key];
@@ -150,8 +158,7 @@ function postDemande(it, clientmsg) {
     else {
         if (it + 1 == clientArr.length && clientmsg != "retour") {
             var key = clientArr[it];
-            // var clientmsg = document.getElementById("message").value;
-            var Autre = autre(clientService);
+            // var Autre = autre(clientService);
             if (clientmsg.toLowerCase() == "annuler") {
                 document.getElementById('sendBtnA').style.display = "none";
                 document.getElementById('sendBtn').style.display = "block";
