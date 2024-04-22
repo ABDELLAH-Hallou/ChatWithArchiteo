@@ -1,10 +1,11 @@
 import os
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:root@localhost/chatbotArchiteo"
-# app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://abdellahhallou@architeodbchatbot:Chatbot2@architeodbchatbot.mysql.database.azure.com/chatbotArchiteo"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.getenv('username')}:{os.getenv('password')}@localhost/{os.getenv('database')}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JSON_AS_ASCII'] = False
 
